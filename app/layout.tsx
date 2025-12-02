@@ -1,4 +1,6 @@
+// app/layout.tsx
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -6,7 +8,7 @@ export const metadata: Metadata = {
   description: 'A refactored trading terminal experience built with Next.js and TypeScript.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-[#0a0e17] text-slate-50 antialiased">
