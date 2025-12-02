@@ -58,6 +58,7 @@ const translations: Record<Language, TranslationTree> = {
     server: { connected: 'Connected', server: 'Server', leverage: 'Leverage', session: 'Session' },
     account: { title: 'Account', deposit: 'Deposit', totalBalance: 'Total Balance', equity: 'Equity', margin: 'Margin', freeMargin: 'Free Margin', marginLevel: 'Margin Level', today: 'today' },
     chart: { indicators: 'Indicators', draw: 'Draw', volume: 'Volume' },
+    market: { high24h: '24h High', low24h: '24h Low', volume: 'Volume', funding: 'Funding', mark: 'Mark' },
     orderBook: { title: 'Order Book', price: 'Price (USDT)', amount: 'Amount (BTC)', total: 'Total', buyers: 'Buyers', sellers: 'Sellers' },
     recentTrades: { title: 'Recent Trades', price: 'Price (USDT)', amount: 'Amount (BTC)', time: 'Time' },
     trades: { count: 'Trades', buyVolume: 'Buy Vol', sellVolume: 'Sell Vol' },
@@ -78,6 +79,7 @@ const translations: Record<Language, TranslationTree> = {
     server: { connected: 'متصل', server: 'سرور', leverage: 'اهرم', session: 'نشست' },
     account: { title: 'حساب', deposit: 'واریز', totalBalance: 'موجودی کل', equity: 'ارزش خالص', margin: 'مارجین', freeMargin: 'مارجین آزاد', marginLevel: 'سطح مارجین', today: 'امروز' },
     chart: { indicators: 'اندیکاتورها', draw: 'رسم', volume: 'حجم' },
+    market: { high24h: 'بیشترین ۲۴ساعت', low24h: 'کمترین ۲۴ساعت', volume: 'حجم', funding: 'فاندینگ', mark: 'مارک' },
     orderBook: { title: 'دفتر سفارشات', price: 'قیمت (USDT)', amount: 'مقدار (BTC)', total: 'مجموع', buyers: 'خریداران', sellers: 'فروشندگان' },
     recentTrades: { title: 'معاملات اخیر', price: 'قیمت (USDT)', amount: 'مقدار (BTC)', time: 'زمان' },
     trades: { count: 'معاملات', buyVolume: 'حجم خرید', sellVolume: 'حجم فروش' },
@@ -148,22 +150,32 @@ function formatCompact(num: number) {
 }
 
 function generateOrderBook(): OrderBookRow[] {
-  const rows: OrderBookRow[] = [];
-  for (let i = 0; i < 10; i += 1) {
-    const price = 67500 + (Math.random() - 0.5) * 200;
-    const amount = 0.1 + Math.random() * 5;
-    rows.push({ price, amount, total: price * amount, side: i < 5 ? 'ask' : 'bid' });
+  const asks: OrderBookRow[] = [];
+  const bids: OrderBookRow[] = [];
+  const mid = 67500;
+
+  for (let i = 0; i < 5; i += 1) {
+    const askPrice = mid + 20 + Math.random() * 200;
+    const askAmount = 0.1 + Math.random() * 5;
+    asks.push({ price: askPrice, amount: askAmount, total: askPrice * askAmount, side: 'ask' });
+
+    const bidPrice = mid - 20 - Math.random() * 200;
+    const bidAmount = 0.1 + Math.random() * 5;
+    bids.push({ price: bidPrice, amount: bidAmount, total: bidPrice * bidAmount, side: 'bid' });
   }
-  return rows.sort((a, b) => b.price - a.price);
+
+  return [...asks.sort((a, b) => a.price - b.price), ...bids.sort((a, b) => b.price - a.price)];
 }
 
-function generateTrades(): Trade[] {
+function generateTrades(language: Language): Trade[] {
   const trades: Trade[] = [];
+  const locale = language === 'fa' ? 'fa-IR' : 'en-US';
+
   for (let i = 0; i < 15; i += 1) {
     const side = Math.random() > 0.5 ? 'buy' : 'sell';
     const price = 67500 + (Math.random() - 0.5) * 150;
     const amount = Math.random() * 2;
-    const time = new Date(Date.now() - i * 20_000).toLocaleTimeString('en-US', { hour12: false });
+    const time = new Date(Date.now() - i * 20_000).toLocaleTimeString(locale, { hour12: false });
     trades.push({ side, price, amount, time });
   }
   return trades;
@@ -175,8 +187,10 @@ export default function Home() {
   const [orderType, setOrderType] = useState<'market' | 'limit' | 'stop' | 'trailing'>('market');
   const [isBuyMode, setIsBuyMode] = useState(true);
   const [sliderValue, setSliderValue] = useState(25);
-  const [orderBook, setOrderBook] = useState<OrderBookRow[]>(() => generateOrderBook());
-  const [trades, setTrades] = useState<Trade[]>(() => generateTrades());
+  const [orderBook, setOrderBook] = useState<OrderBookRow[]>([]);
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [amount, setAmount] = useState(0.25 * 1.234);
+  const maxAmount = 1.234;
 
   useEffect(() => {
     const html = document.documentElement;
@@ -185,12 +199,15 @@ export default function Home() {
   }, [language]);
 
   useEffect(() => {
+    setOrderBook(generateOrderBook());
+    setTrades(generateTrades(language));
+
     const interval = setInterval(() => {
       setOrderBook(generateOrderBook());
-      setTrades(generateTrades());
+      setTrades(generateTrades(language));
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [language]);
 
   const t = (path: string) => getNestedTranslation(translations[language], path) ?? path;
 
@@ -199,7 +216,14 @@ export default function Home() {
   const totalBalance = 125430.5;
   const todayPnL = 3240;
   const headerPrice = trades[0]?.price ?? 67542.3;
-  const headerChange = 2.4;
+  const headerBasePrice = 67000;
+  const headerChange = ((headerPrice - headerBasePrice) / headerBasePrice) * 100;
+
+  const normalizedAmount = amount > maxAmount ? maxAmount : amount;
+  const feeRate = 0.001;
+  const orderValue = headerPrice * normalizedAmount;
+  const feeValue = orderValue * feeRate;
+  const totalValue = orderValue + feeValue;
 
   return (
     <div className="min-h-screen pb-10">
@@ -241,7 +265,7 @@ export default function Home() {
               <span className="font-mono text-slate-300">{formatNumber(headerPrice, language)}</span>
               <span className={`text-[10px] ${headerChange >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
                 {headerChange >= 0 ? '+' : ''}
-                {headerChange}%
+                {headerChange.toFixed(2)}%
               </span>
             </div>
             <button
@@ -380,29 +404,32 @@ export default function Home() {
 
         <section className="flex-1 flex flex-col gap-3">
           <div className="rounded-2xl glass-card p-4 shadow-xl">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
-              <div>
-                <p className="text-sm text-slate-400">BTC/USDT</p>
-                <div className="flex items-center gap-3">
-                  <p className="text-3xl font-bold text-white font-mono">{formatNumber(headerPrice, language)}</p>
-                  <span className="px-2 py-1 text-xs rounded-lg bg-emerald-500/15 text-emerald-400 border border-emerald-500/20">+2.41%</span>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+                <div>
+                  <p className="text-sm text-slate-400">BTC/USDT</p>
+                  <div className="flex items-center gap-3">
+                    <p className="text-3xl font-bold text-white font-mono">{formatNumber(headerPrice, language)}</p>
+                    <span className={`px-2 py-1 text-xs rounded-lg border ${headerChange >= 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' : 'bg-rose-500/15 text-rose-400 border-rose-500/20'}`}>
+                      {headerChange >= 0 ? '+' : ''}
+                      {headerChange.toFixed(2)}%
+                    </span>
+                  </div>
                 </div>
-              </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-[11px]">
                 <div className="p-2 rounded-xl bg-slate-900/40">
-                  <p className="text-slate-500">24h High</p>
+                  <p className="text-slate-500">{t('market.high24h')}</p>
                   <p className="font-mono text-white">67,880</p>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-900/40">
-                  <p className="text-slate-500">24h Low</p>
+                  <p className="text-slate-500">{t('market.low24h')}</p>
                   <p className="font-mono text-white">65,240</p>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-900/40">
-                  <p className="text-slate-500">Volume</p>
+                  <p className="text-slate-500">{t('market.volume')}</p>
                   <p className="font-mono text-white">18,240 BTC</p>
                 </div>
                 <div className="p-2 rounded-xl bg-slate-900/40">
-                  <p className="text-slate-500">Funding</p>
+                  <p className="text-slate-500">{t('market.funding')}</p>
                   <p className="font-mono text-emerald-400">0.012%</p>
                 </div>
               </div>
@@ -568,13 +595,20 @@ export default function Home() {
                 <label className="flex items-center justify-between text-slate-400 mb-1">
                   <span>{t('order.amount')}</span>
                   <span className="text-slate-500">
-                    {t('order.available')} <span className="text-white font-mono">1.234 BTC</span>
+                    {t('order.available')} <span className="text-white font-mono">{formatNumber(maxAmount, language, 3)} BTC</span>
                   </span>
                 </label>
                 <div className="relative">
                   <input
                     type="text"
-                    defaultValue="0.50"
+                    value={normalizedAmount.toFixed(3)}
+                    onChange={(event) => {
+                      const value = Number(event.target.value);
+                      if (Number.isNaN(value)) return;
+                      const clamped = Math.max(0, Math.min(maxAmount, value));
+                      setAmount(clamped);
+                      setSliderValue(Math.round((clamped / maxAmount) * 100));
+                    }}
                     className="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white font-mono focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20"
                   />
                   <span className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">BTC</span>
@@ -586,7 +620,11 @@ export default function Home() {
                   min={0}
                   max={100}
                   value={sliderValue}
-                  onChange={(event) => setSliderValue(Number(event.target.value))}
+                  onChange={(event) => {
+                    const nextSlider = Number(event.target.value);
+                    setSliderValue(nextSlider);
+                    setAmount(Number(((nextSlider / 100) * maxAmount).toFixed(3)));
+                  }}
                   className="range-slider flex-1"
                 />
                 <span className="text-xs text-slate-400 w-10 text-end">{sliderValue}%</span>
@@ -598,15 +636,15 @@ export default function Home() {
               <div className="space-y-1 text-[10px] text-slate-400">
                 <div className="flex items-center justify-between">
                   <span>{t('order.orderValue')}</span>
-                  <span className="font-mono text-white">$33,771.15</span>
+                  <span className="font-mono text-white">${formatNumber(orderValue, language)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>{t('order.fee')}</span>
-                  <span className="font-mono text-white">$33.77</span>
+                  <span className="font-mono text-white">${formatNumber(feeValue, language)}</span>
                 </div>
                 <div className="flex items-center justify-between font-semibold text-white">
                   <span>{t('order.total')}</span>
-                  <span className="font-mono">$33,804.92</span>
+                  <span className="font-mono">${formatNumber(totalValue, language)}</span>
                 </div>
               </div>
               <button
@@ -649,7 +687,7 @@ export default function Home() {
                       <p className="font-mono text-white">${formatNumber(pos.entry, language)}</p>
                     </div>
                     <div>
-                      <p>Mark</p>
+                      <p>{t('market.mark')}</p>
                       <p className="font-mono text-white">${formatNumber(pos.mark, language)}</p>
                     </div>
                     <div>
