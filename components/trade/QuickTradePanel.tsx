@@ -38,6 +38,26 @@ export function QuickTradePanel({
   feeValue,
   totalValue,
 }: QuickTradePanelProps) {
+  const handleAmountChange = (raw: number) => {
+    if (Number.isNaN(raw)) {
+      setAmount(0);
+      setSliderValue(0);
+      return;
+    }
+
+    const clampedAmount = Math.max(0, Math.min(maxAmount, raw));
+    setAmount(clampedAmount);
+    const percent = maxAmount > 0 ? Math.round((clampedAmount / maxAmount) * 100) : 0;
+    setSliderValue(percent);
+  };
+
+  const handleSliderChange = (val: number) => {
+    const clampedSlider = Math.max(0, Math.min(100, val));
+    setSliderValue(clampedSlider);
+    const nextAmount = Number(((clampedSlider / 100) * maxAmount).toFixed(3));
+    setAmount(nextAmount);
+  };
+
   return (
     <div className="rounded-2xl glass-card p-3 shadow-xl">
       <div className="flex items-center justify-between mb-3">
@@ -89,7 +109,7 @@ export function QuickTradePanel({
             <input
               type="number"
               value={amount.toFixed(3)}
-              onChange={(e) => setAmount(Number(e.target.value))}
+              onChange={(e) => handleAmountChange(Number(e.target.value))}
               className="w-24 bg-slate-900/50 border border-white/10 rounded-lg px-2 py-1 text-right text-sm"
             />
             <span className="text-[10px] text-slate-500">BTC</span>
@@ -97,7 +117,7 @@ export function QuickTradePanel({
         </div>
         <div className="flex items-center justify-between text-[10px] text-slate-400">
           <span>{t('order.available')}</span>
-          <span className="text-white font-mono">{maxAmount} BTC</span>
+          <span className="text-white font-mono">{maxAmount.toFixed(3)} BTC</span>
         </div>
         <div className="relative py-2">
           <input
@@ -105,8 +125,8 @@ export function QuickTradePanel({
             min={0}
             max={100}
             value={sliderValue}
-            onChange={(e) => setSliderValue(Number(e.target.value))}
-            className="w-full accent-emerald-500"
+            onChange={(e) => handleSliderChange(Number(e.target.value))}
+            className="w-full accent-emerald-500 range-slider"
           />
           <div className="absolute -bottom-1 left-0 w-full flex justify-between text-[10px] text-slate-500">
             {[0, 25, 50, 75, 100].map((mark) => (

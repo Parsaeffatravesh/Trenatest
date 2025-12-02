@@ -22,8 +22,8 @@ export function TradingScreen() {
   const [sliderValue, setSliderValue] = useState(25);
   const [orderBook, setOrderBook] = useState<OrderBookRow[]>([]);
   const [trades, setTrades] = useState<Trade[]>([]);
-  const [amount, setAmount] = useState(0.25 * 1.234);
   const maxAmount = 1.234;
+  const [amount, setAmount] = useState(0.25 * maxAmount);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -42,10 +42,6 @@ export function TradingScreen() {
     return () => clearInterval(interval);
   }, [language]);
 
-  useEffect(() => {
-    setAmount((sliderValue / 100) * maxAmount);
-  }, [sliderValue]);
-
   const t = (path: string) => getNestedTranslation(translations[language], path) ?? path;
 
   const watchlistItems = useMemo(() => watchlistData[watchlistTab], [watchlistTab]);
@@ -56,7 +52,7 @@ export function TradingScreen() {
   const headerBasePrice = 67000;
   const headerChange = ((headerPrice - headerBasePrice) / headerBasePrice) * 100;
 
-  const normalizedAmount = amount > maxAmount ? maxAmount : amount;
+  const normalizedAmount = Math.max(0, Math.min(maxAmount, Number.isFinite(amount) ? amount : 0));
   const feeRate = 0.001;
   const orderValue = headerPrice * normalizedAmount;
   const feeValue = orderValue * feeRate;
@@ -102,7 +98,7 @@ export function TradingScreen() {
             setIsBuyMode={setIsBuyMode}
             sliderValue={sliderValue}
             setSliderValue={setSliderValue}
-            amount={amount}
+            amount={normalizedAmount}
             setAmount={setAmount}
             maxAmount={maxAmount}
             headerPrice={headerPrice}

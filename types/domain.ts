@@ -2,7 +2,7 @@ export type Language = 'en' | 'fa';
 
 export type TranslationTree = Record<string, string | TranslationTree>;
 
-export type Symbol = 'BTCUSDT' | 'ETHUSDT' | 'SOLUSDT' | string;
+export type TradingSymbol = 'BTCUSDT' | 'ETHUSDT' | 'SOLUSDT' | (string & {});
 
 export interface WatchlistItem {
   symbol: string;
@@ -27,7 +27,7 @@ export interface Trade {
 }
 
 export interface Position {
-  symbol: Symbol;
+  symbol: TradingSymbol;
   size: number;
   entry: number;
   mark: number;
@@ -38,7 +38,7 @@ export interface Position {
 
 export interface Order {
   id: string;
-  symbol: Symbol;
+  symbol: TradingSymbol;
   type: string;
   price: number;
   amount: number;
@@ -46,13 +46,13 @@ export interface Order {
 }
 
 export interface PriceTick {
-  symbol: Symbol;
+  symbol: TradingSymbol;
   price: number;
   timestamp: number;
 }
 
 export interface OrderBookSnapshot {
-  symbol: Symbol;
+  symbol: TradingSymbol;
   bids: OrderBookRow[];
   asks: OrderBookRow[];
   ts: number;
