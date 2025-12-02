@@ -1,0 +1,658 @@
+<!-- Animated Top Gradient Bar -->
+    <div class="h-1 gradient-bar"></div>
+
+    <!-- Header -->
+    <header class="border-b border-white/5 bg-[#0a0e17]/90 backdrop-blur-xl sticky top-0 z-50">
+        <div class="mx-auto max-w-[1920px] px-3 sm:px-4 lg:px-6 flex items-center justify-between h-14">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="relative h-10 w-10 rounded-xl bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-500 flex items-center justify-center text-sm font-bold shadow-lg shadow-emerald-500/30 text-white">
+                    <span class="relative z-10">NT</span>
+                    <div class="absolute inset-0 rounded-xl bg-gradient-to-br from-emerald-500 via-cyan-500 to-purple-500 blur-lg opacity-50"></div>
+                </div>
+                <div class="hidden sm:block">
+                    <p class="text-sm font-bold tracking-tight gradient-text" data-i18n="appName">NeoTrader</p>
+                    <p class="text-[10px] text-slate-500" data-i18n="appTagline">Professional Trading Terminal</p>
+                </div>
+            </div>
+
+            <!-- Center Navigation -->
+            <nav class="hidden lg:flex items-center gap-1 bg-slate-900/50 rounded-full p-1 border border-white/5">
+                <button class="nav-btn px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all" data-nav="watchlist" data-i18n="nav.watchlist">Watchlist</button>
+                <button class="nav-btn px-4 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 text-white border border-emerald-500/30" data-nav="charts" data-i18n="nav.charts">Charts</button>
+                <button class="nav-btn px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all" data-nav="orders" data-i18n="nav.orders">Orders</button>
+                <button class="nav-btn px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all" data-nav="portfolio" data-i18n="nav.portfolio">Portfolio</button>
+                <button class="nav-btn px-4 py-2 rounded-full text-xs font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-all" data-nav="analytics" data-i18n="nav.analytics">Analytics</button>
+            </nav>
+
+            <!-- Right Controls -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Market Status -->
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                    <span class="relative flex h-2 w-2">
+                        <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                    </span>
+                    <span class="text-[11px] text-emerald-400 font-medium" data-i18n="status.marketOpen">Market Open</span>
+                </div>
+
+                <!-- Quick Price Display -->
+                <div class="hidden sm:flex items-center gap-2 text-xs">
+                    <span class="font-mono text-slate-300" id="headerPrice">67,542.30</span>
+                    <span class="text-emerald-400 text-[10px]" id="headerChange">+2.4%</span>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button id="themeToggle" class="p-2 rounded-lg border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800 transition tooltip" data-tooltip="Toggle Theme">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+
+                <!-- Notifications -->
+                <button id="notifBtn" class="relative p-2 rounded-lg border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800 transition tooltip" data-tooltip="Notifications">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                    </svg>
+                    <span class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-rose-500 text-[9px] flex items-center justify-center font-bold">3</span>
+                </button>
+
+                <!-- Language Toggle -->
+                <button id="langToggle" class="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800 transition text-xs font-medium">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                    </svg>
+                    <span id="currentLang">EN</span>
+                </button>
+
+                <!-- User Profile -->
+                <div class="relative" id="userMenuContainer">
+                    <button id="userMenuBtn" class="flex items-center gap-2 px-2 py-1.5 rounded-lg border border-slate-700/50 bg-slate-900/50 hover:bg-slate-800 transition">
+                        <div class="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center text-[10px] font-bold text-white">JD</div>
+                        <div class="hidden sm:block text-start">
+                            <p class="text-[11px] font-medium text-white" data-i18n="user.name">John Doe</p>
+                            <p class="text-[9px] text-emerald-400" data-i18n="user.plan">Pro Account</p>
+                        </div>
+                        <svg class="w-3 h-3 text-slate-500 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="mx-auto max-w-[1920px] w-full px-3 sm:px-4 lg:px-6 py-3 flex flex-col xl:flex-row gap-3 pb-20 lg:pb-3">
+        
+        <!-- Left Sidebar -->
+        <aside class="w-full xl:w-72 flex-shrink-0 flex flex-col gap-3">
+            <!-- Watchlist -->
+            <div class="rounded-2xl glass-card glass-card-hover p-3 shadow-xl">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-semibold text-white" data-i18n="watchlist.title">Watchlist</p>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button class="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-emerald-400 transition">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
+                        <button class="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-emerald-400 transition">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Category Tabs -->
+                <div class="flex gap-1 mb-3 p-1 bg-slate-900/50 rounded-xl" id="watchlistTabs">
+                    <button class="watchlist-tab flex-1 px-2 py-1.5 rounded-lg text-[10px] font-medium bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 transition-all" data-tab="crypto">Crypto</button>
+                    <button class="watchlist-tab flex-1 px-2 py-1.5 rounded-lg text-[10px] font-medium text-slate-400 hover:bg-white/5 border border-transparent transition-all" data-tab="fx">Forex</button>
+                    <button class="watchlist-tab flex-1 px-2 py-1.5 rounded-lg text-[10px] font-medium text-slate-400 hover:bg-white/5 border border-transparent transition-all" data-tab="stocks" data-i18n="watchlist.stocks">Stocks</button>
+                </div>
+                
+                <!-- Watchlist Items -->
+                <div class="space-y-1 max-h-[280px] overflow-y-auto scrollbar-thin" id="watchlistItems"></div>
+            </div>
+
+            <!-- Account Summary -->
+            <div class="rounded-2xl glass-card glass-card-hover p-3">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-semibold text-white" data-i18n="account.title">Account</p>
+                    </div>
+                    <button class="text-[10px] text-slate-400 hover:text-emerald-400 transition" data-i18n="account.deposit">Deposit</button>
+                </div>
+                
+                <!-- Balance Card -->
+                <div class="relative p-3 rounded-xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/5 to-purple-500/10 border border-emerald-500/20 mb-3 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-emerald-500/20 to-transparent rounded-full blur-2xl"></div>
+                    <p class="text-[10px] text-slate-400 mb-1" data-i18n="account.totalBalance">Total Balance</p>
+                    <p class="text-xl font-bold text-white font-mono" id="totalBalance">$125,430.50</p>
+                    <div class="flex items-center gap-2 mt-2">
+                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                            <span id="todayPnLPercent">+2.58%</span>
+                        </span>
+                        <span class="text-[10px] text-emerald-400 font-mono" id="todayPnL">+$3,240.00</span>
+                        <span class="text-[10px] text-slate-500" data-i18n="account.today">today</span>
+                    </div>
+                </div>
+                
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 gap-2 text-[11px]">
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="account.equity">Equity</p>
+                        <p class="font-mono text-white font-medium">$126,320.82</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="account.margin">Margin</p>
+                        <p class="font-mono text-white font-medium">$12,540.00</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="account.freeMargin">Free Margin</p>
+                        <p class="font-mono text-emerald-400 font-medium">$113,780.82</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="account.marginLevel">Margin Level</p>
+                        <p class="font-mono text-cyan-400 font-medium">1,007%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server & Market Info -->
+            <div class="rounded-2xl glass-card p-3 text-[11px]">
+                <div class="flex items-center gap-4 mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-2 w-2 rounded-full bg-emerald-400"></span>
+                        <span class="text-slate-400" data-i18n="server.connected">Connected</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="font-mono text-emerald-400" id="pingValue">18ms</span>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="text-center p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 text-[9px] mb-0.5" data-i18n="server.server">Server</p>
+                        <p class="font-mono text-white">LDN-02</p>
+                    </div>
+                    <div class="text-center p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 text-[9px] mb-0.5" data-i18n="server.leverage">Leverage</p>
+                        <p class="font-mono text-white">1:100</p>
+                    </div>
+                    <div class="text-center p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 text-[9px] mb-0.5" data-i18n="server.session">Session</p>
+                        <p class="font-mono text-cyan-400" id="sessionName">London</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Economic Calendar Preview -->
+            <div class="rounded-2xl glass-card p-3 hidden xl:block">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-orange-500/20 to-red-500/20 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-semibold text-white" data-i18n="calendar.title">Economic Calendar</p>
+                    </div>
+                </div>
+                <div class="space-y-2" id="calendarEvents"></div>
+            </div>
+        </aside>
+
+        <!-- Center: Chart & Trading -->
+        <section class="flex-1 flex flex-col gap-3 min-w-0">
+            <!-- Symbol Header -->
+            <div class="flex flex-wrap items-center justify-between gap-3 px-1">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/20 to-yellow-500/20 flex items-center justify-center border border-orange-500/20">
+                        <span class="text-lg">₿</span>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <select id="symbolSelect" class="text-base font-bold text-white bg-transparent border-none focus:outline-none cursor-pointer">
+                                <option value="BTCUSDT">BTC/USDT</option>
+                                <option value="ETHUSDT">ETH/USDT</option>
+                                <option value="SOLUSDT">SOL/USDT</option>
+                                <option value="EURUSD">EUR/USD</option>
+                                <option value="XAUUSD">XAU/USD</option>
+                            </select>
+                            <span id="trendBadge" class="text-[10px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">
+                                ↑ BULLISH
+                            </span>
+                        </div>
+                        <p class="text-[11px] text-slate-500" id="symbolInfo">Bitcoin vs Tether · Crypto · 24h Vol: $42.8B</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4 sm:gap-6">
+                    <!-- Price Display -->
+                    <div class="text-end">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-2xl font-bold font-mono text-white" id="currentPrice">67,542.30</span>
+                            <span class="text-sm font-medium" id="priceChangeDisplay">
+                                <span class="text-emerald-400">+1,234.50</span>
+                                <span class="text-emerald-400 text-xs">(+1.86%)</span>
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-3 mt-1 text-[11px]">
+                            <span class="text-slate-500">H: <span class="text-white font-mono">68,200.00</span></span>
+                            <span class="text-slate-500">L: <span class="text-white font-mono">66,100.00</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Card -->
+            <div class="relative rounded-2xl glass-card overflow-hidden shadow-2xl flex-1 min-h-[400px]">
+                <div class="absolute inset-0 chart-container"></div>
+                
+                <div class="relative p-3 sm:p-4 flex flex-col h-full">
+                    <!-- Chart Toolbar -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 text-[11px] mb-3">
+                        <div class="flex items-center gap-1 p-1 bg-slate-900/50 rounded-xl" id="timeframeBtns">
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="1m">1m</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="5m">5m</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="15m">15m</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" data-tf="1h">1H</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="4h">4H</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="1d">1D</button>
+                            <button class="tf-btn px-2.5 py-1.5 rounded-lg transition-all text-slate-400 hover:text-white hover:bg-white/5" data-tf="1w">1W</button>
+                        </div>
+                        
+                        <div class="flex items-center gap-2">
+                            <button id="indicatorsBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-slate-900/50 hover:bg-slate-800 transition text-slate-300">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                </svg>
+                                <span data-i18n="chart.indicators">Indicators</span>
+                            </button>
+                            <button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 bg-slate-900/50 hover:bg-slate-800 transition text-slate-300">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                                <span data-i18n="chart.draw">Draw</span>
+                            </button>
+                            <button id="fullscreenBtn" class="p-2 rounded-lg border border-white/10 bg-slate-900/50 hover:bg-slate-800 transition text-slate-400 tooltip" data-tooltip="Fullscreen">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chart Area -->
+                    <div class="relative flex-1 rounded-xl overflow-hidden border border-white/5">
+                        <div class="absolute inset-0 chart-grid"></div>
+                        <canvas id="priceChart" class="w-full h-full"></canvas>
+                        
+                        <!-- Crosshair Info -->
+                        <div id="crosshairInfo" class="absolute top-2 left-2 hidden bg-slate-900/90 backdrop-blur-sm rounded-lg p-2 text-[10px] border border-white/10">
+                            <div class="flex gap-4">
+                                <span class="text-slate-400">O: <span class="text-white font-mono">67,500</span></span>
+                                <span class="text-slate-400">H: <span class="text-white font-mono">67,800</span></span>
+                                <span class="text-slate-400">L: <span class="text-white font-mono">67,200</span></span>
+                                <span class="text-slate-400">C: <span class="text-white font-mono">67,542</span></span>
+                            </div>
+                        </div>
+                        
+                        <!-- Price Label -->
+                        <div id="priceLabel" class="absolute right-0 top-1/2 -translate-y-1/2 bg-emerald-500 text-white text-[10px] font-mono px-2 py-1 rounded-l-md">
+                            67,542.30
+                        </div>
+                    </div>
+
+                    <!-- Volume Bar -->
+                    <div class="h-12 mt-2 rounded-lg bg-slate-900/30 border border-white/5 overflow-hidden">
+                        <canvas id="volumeChart" class="w-full h-full"></canvas>
+                    </div>
+
+                    <!-- Chart Legend -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 mt-2 text-[10px] text-slate-400">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-3 h-0.5 rounded-full bg-cyan-400"></span>
+                                <span>MA 20</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-3 h-0.5 rounded-full bg-purple-400"></span>
+                                <span>MA 50</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="w-3 h-0.5 rounded-full bg-orange-400"></span>
+                                <span>EMA 21</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span data-i18n="chart.volume">Volume</span>
+                            <span class="font-mono text-white" id="volumeValue">$42.8B</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Book & Trades -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <!-- Order Book -->
+                <div class="rounded-2xl glass-card p-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500/20 to-indigo-500/20 flex items-center justify-center">
+                                <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-white" data-i18n="orderBook.title">Order Book</p>
+                        </div>
+                        <div class="flex gap-1 text-[9px]">
+                            <button class="precision-btn px-2 py-1 rounded bg-white/10 text-white" data-precision="0.01">0.01</button>
+                            <button class="precision-btn px-2 py-1 rounded text-slate-500 hover:bg-white/5" data-precision="0.1">0.1</button>
+                            <button class="precision-btn px-2 py-1 rounded text-slate-500 hover:bg-white/5" data-precision="1">1</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between text-[9px] text-slate-500 mb-2 px-2">
+                        <span data-i18n="orderBook.price">Price (USDT)</span>
+                        <span data-i18n="orderBook.amount">Amount (BTC)</span>
+                        <span data-i18n="orderBook.total">Total</span>
+                    </div>
+                    
+                    <div class="space-y-0.5 mb-1" id="askOrders"></div>
+                    
+                    <div class="py-2 px-3 my-2 rounded-lg bg-gradient-to-r from-emerald-500/10 to-transparent border-l-2 border-emerald-500 flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-emerald-400 font-mono" id="midPrice">67,542.30</span>
+                            <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+                            </svg>
+                        </div>
+                        <span class="text-[10px] text-slate-500">≈ $67,542.30</span>
+                    </div>
+                    
+                    <div class="space-y-0.5" id="bidOrders"></div>
+                    
+                    <!-- Depth Visualization -->
+                    <div class="mt-3 h-8 rounded-lg overflow-hidden flex">
+                        <div class="h-full bg-emerald-500/20 transition-all" id="bidDepth" style="width: 55%"></div>
+                        <div class="h-full bg-rose-500/20 transition-all" id="askDepth" style="width: 45%"></div>
+                    </div>
+                    <div class="flex justify-between text-[9px] mt-1">
+                        <span class="text-emerald-400">55% <span class="text-slate-500" data-i18n="orderBook.buyers">Buyers</span></span>
+                        <span class="text-rose-400">45% <span class="text-slate-500" data-i18n="orderBook.sellers">Sellers</span></span>
+                    </div>
+                </div>
+
+                <!-- Recent Trades -->
+                <div class="rounded-2xl glass-card p-3">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                                <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-white" data-i18n="recentTrades.title">Recent Trades</p>
+                        </div>
+                        <div class="flex items-center gap-1 text-[10px]">
+                            <span class="flex h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-slate-400" data-i18n="status.live">Live</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between text-[9px] text-slate-500 mb-2 px-2">
+                        <span data-i18n="recentTrades.price">Price (USDT)</span>
+                        <span data-i18n="recentTrades.amount">Amount (BTC)</span>
+                        <span data-i18n="recentTrades.time">Time</span>
+                    </div>
+                    
+                    <div class="space-y-0.5 max-h-[200px] overflow-y-auto scrollbar-thin" id="recentTrades"></div>
+                    
+                    <!-- Trade Stats -->
+                    <div class="mt-3 pt-3 border-t border-white/5 grid grid-cols-3 gap-2 text-[10px]">
+                        <div class="text-center">
+                            <p class="text-slate-500" data-i18n="trades.count">Trades</p>
+                            <p class="font-mono text-white font-medium" id="tradeCount">1,234</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-slate-500" data-i18n="trades.buyVolume">Buy Vol</p>
+                            <p class="font-mono text-emerald-400 font-medium" id="buyVolume">234.5 BTC</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-slate-500" data-i18n="trades.sellVolume">Sell Vol</p>
+                            <p class="font-mono text-rose-400 font-medium" id="sellVolume">198.2 BTC</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Sidebar: Order Panel -->
+        <aside class="w-full xl:w-80 flex-shrink-0 flex flex-col gap-3">
+            <!-- Quick Trade -->
+            <div class="rounded-2xl glass-card p-4 shadow-xl border border-emerald-500/10">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center">
+                            <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <p class="text-sm font-semibold text-white" data-i18n="order.quickTrade">Quick Trade</p>
+                    </div>
+                    <select id="orderTypeSelect" class="text-[10px] px-2 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 focus:outline-none focus:border-emerald-500/50">
+                        <option value="market" data-i18n="order.market">Market</option>
+                        <option value="limit" data-i18n="order.limit">Limit</option>
+                        <option value="stop" data-i18n="order.stopLimit">Stop Limit</option>
+                        <option value="trailing" data-i18n="order.trailing">Trailing Stop</option>
+                    </select>
+                </div>
+
+                <!-- Buy/Sell Toggle -->
+                <div class="flex gap-1 p-1 bg-slate-900/50 rounded-xl mb-4">
+                    <button id="buyModeBtn" class="flex-1 py-2 rounded-lg text-xs font-semibold bg-emerald-500 text-white transition-all">
+                        <span data-i18n="order.buy">Buy</span> / <span data-i18n="order.long">Long</span>
+                    </button>
+                    <button id="sellModeBtn" class="flex-1 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:bg-white/5 transition-all">
+                        <span data-i18n="order.sell">Sell</span> / <span data-i18n="order.short">Short</span>
+                    </button>
+                </div>
+
+                <div class="space-y-3 text-[11px]">
+                    <!-- Price Input (for limit orders) -->
+                    <div id="limitPriceRow" class="hidden">
+                        <label class="flex items-center justify-between text-slate-400 mb-1">
+                            <span data-i18n="order.price">Price</span>
+                            <button class="text-emerald-400 hover:underline text-[10px]" id="lastPriceBtn" data-i18n="order.lastPrice">Last Price</button>
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="orderPrice" value="67,542.30" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white font-mono focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">USDT</span>
+                        </div>
+                    </div>
+
+                    <!-- Amount -->
+                    <div>
+                        <label class="flex items-center justify-between text-slate-400 mb-1">
+                            <span data-i18n="order.amount">Amount</span>
+                            <span class="text-slate-500" data-i18n="order.available">Avbl: <span class="text-white font-mono">1.234 BTC</span></span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" value="0.50" id="orderAmount" class="w-full px-3 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white font-mono focus:outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20">
+                            <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500">BTC</span>
+                        </div>
+                    </div>
+
+                    <!-- Amount Slider -->
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="amountSlider" min="0" max="100" value="25" class="range-slider flex-1">
+                        <span class="text-xs text-slate-400 w-10 text-end" id="sliderValue">25%</span>
+                    </div>
+
+                    <!-- Quick Amount Buttons -->
+                    <div class="flex gap-1">
+                        <button class="amount-btn flex-1 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white transition text-[10px] font-medium" data-percent="25">25%</button>
+                        <button class="amount-btn flex-1 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white transition text-[10px] font-medium" data-percent="50">50%</button>
+                        <button class="amount-btn flex-1 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white transition text-[10px] font-medium" data-percent="75">75%</button>
+                        <button class="amount-btn flex-1 py-2 rounded-lg bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white transition text-[10px] font-medium" data-percent="100">100%</button>
+                    </div>
+
+                    <!-- TP/SL Toggle -->
+                    <div class="flex items-center justify-between py-2">
+                        <span class="text-slate-400" data-i18n="order.tpsl">TP/SL</span>
+                        <button id="tpslToggle" class="relative w-10 h-5 rounded-full bg-slate-700 transition-colors">
+                            <span class="absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-slate-400 transition-transform"></span>
+                        </button>
+                    </div>
+
+                    <!-- TP/SL Inputs (hidden by default) -->
+                    <div id="tpslInputs" class="hidden space-y-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="block text-slate-400 mb-1" data-i18n="order.takeProfit">Take Profit</label>
+                                <input type="text" id="orderTP" placeholder="70,000" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white font-mono text-[11px] focus:outline-none focus:border-emerald-500/50">
+                            </div>
+                            <div>
+                                <label class="block text-slate-400 mb-1" data-i18n="order.stopLoss">Stop Loss</label>
+                                <input type="text" id="orderSL" placeholder="65,000" class="w-full px-3 py-2 rounded-xl bg-slate-900 border border-white/10 text-white font-mono text-[11px] focus:outline-none focus:border-rose-500/50">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="p-3 rounded-xl bg-slate-900/50 border border-white/5 space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500" data-i18n="order.orderValue">Order Value</span>
+                            <span class="font-mono text-white" id="orderValue">$33,771.15</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-500" data-i18n="order.fee">Fee (0.1%)</span>
+                            <span class="font-mono text-slate-400" id="orderFee">$33.77</span>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-white/5">
+                            <span class="text-slate-400 font-medium" data-i18n="order.total">Total</span>
+                            <span class="font-mono text-white font-semibold" id="orderTotal">$33,804.92</span>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button id="submitOrderBtn" class="w-full py-3.5 rounded-xl gradient-btn-buy text-white font-semibold text-sm hover:brightness-110 transition-all active:scale-[0.98]">
+                        <span data-i18n="order.buyMarket">Buy / Long BTC</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Positions & Orders Tabs -->
+            <div class="rounded-2xl glass-card overflow-hidden">
+                <!-- Tabs -->
+                <div class="flex border-b border-white/5">
+                    <button class="positions-tab flex-1 py-3 text-xs font-medium text-white bg-white/5 border-b-2 border-emerald-500" data-tab="positions">
+                        <span data-i18n="positions.title">Positions</span>
+                        <span class="ml-1 px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px]" id="positionsCount">5</span>
+                    </button>
+                    <button class="positions-tab flex-1 py-3 text-xs font-medium text-slate-400 hover:text-white border-b-2 border-transparent" data-tab="orders">
+                        <span data-i18n="orders.pending">Orders</span>
+                        <span class="ml-1 px-1.5 py-0.5 rounded-full bg-slate-700 text-slate-400 text-[10px]" id="ordersCount">3</span>
+                    </button>
+                    <button class="positions-tab flex-1 py-3 text-xs font-medium text-slate-400 hover:text-white border-b-2 border-transparent" data-tab="history">
+                        <span data-i18n="orders.history">History</span>
+                    </button>
+                </div>
+                
+                <!-- Tab Contents -->
+                <div class="p-3">
+                    <div id="positionsPanel" class="space-y-2 max-h-[300px] overflow-y-auto scrollbar-thin"></div>
+                    <div id="ordersPanel" class="hidden space-y-2 max-h-[300px] overflow-y-auto scrollbar-thin"></div>
+                    <div id="historyPanel" class="hidden space-y-2 max-h-[300px] overflow-y-auto scrollbar-thin"></div>
+                </div>
+            </div>
+
+            <!-- Risk Calculator -->
+            <div class="rounded-2xl glass-card p-3 hidden xl:block">
+                <div class="flex items-center gap-2 mb-3">
+                    <div class="w-6 h-6 rounded-lg bg-gradient-to-br from-yellow-500/20 to-orange-500/20 flex items-center justify-center">
+                        <svg class="w-3.5 h-3.5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <p class="text-xs font-semibold text-white" data-i18n="risk.title">Risk Calculator</p>
+                </div>
+                <div class="grid grid-cols-2 gap-2 text-[10px]">
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="risk.riskReward">Risk/Reward</p>
+                        <p class="font-mono text-cyan-400 font-medium">1:3.5</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="risk.maxLoss">Max Loss</p>
+                        <p class="font-mono text-rose-400 font-medium">$1,250</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="risk.potentialProfit">Potential Profit</p>
+                        <p class="font-mono text-emerald-400 font-medium">$4,375</p>
+                    </div>
+                    <div class="p-2 rounded-lg bg-slate-900/50">
+                        <p class="text-slate-500 mb-0.5" data-i18n="risk.breakeven">Break-even</p>
+                        <p class="font-mono text-white font-medium">$67,609</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-20 lg:bottom-4 right-4 z-50 space-y-2 max-w-sm"></div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0a0e17]/95 backdrop-blur-xl border-t border-white/5 p-1 z-40 safe-area-pb">
+        <div class="flex justify-around">
+            <button class="mobile-nav-btn flex flex-col items-center gap-0.5 p-2 rounded-xl text-slate-400 hover:text-white transition" data-nav="watchlist">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                </svg>
+                <span class="text-[9px]" data-i18n="nav.watchlist">Watchlist</span>
+            </button>
+            <button class="mobile-nav-btn flex flex-col items-center gap-0.5 p-2 rounded-xl text-emerald-400" data-nav="charts">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                </svg>
+                <span class="text-[9px]" data-i18n="nav.charts">Charts</span>
+            </button>
+            <button class="mobile-nav-btn flex flex-col items-center gap-0.5 p-2 rounded-xl text-slate-400 hover:text-white transition" data-nav="trade">
+                <div class="w-10 h-10 -mt-5 rounded-full bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                </div>
+                <span class="text-[9px] mt-1" data-i18n="nav.trade">Trade</span>
+            </button>
+            <button class="mobile-nav-btn flex flex-col items-center gap-0.5 p-2 rounded-xl text-slate-400 hover:text-white transition" data-nav="portfolio">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                </svg>
+                <span class="text-[9px]" data-i18n="nav.portfolio">Portfolio</span>
+            </button>
+            <button class="mobile-nav-btn flex flex-col items-center gap-0.5 p-2 rounded-xl text-slate-400 hover:text-white transition" data-nav="more">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+                <span class="text-[9px]" data-i18n="nav.more">More</span>
+            </button>
+        </div>
+    </nav>
