@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="fa" suppressHydrationWarning>
       <body
-        className={`${dana.variable} min-h-screen bg-gradient-to-b from-[#f8fafc] to-[#e2e8f0] text-neutral-900 antialiased transition-colors duration-300 dark:from-[#020617] dark:to-[#0b1224] dark:text-neutral-100`}
+        className={`${dana.variable} min-h-screen font-sans bg-gradient-to-b from-[#f8fafc] to-[#e2e8f0] text-neutral-900 antialiased transition-colors duration-300 dark:from-[#020617] dark:to-[#0b1224] dark:text-neutral-100`}
       >
         <Providers>
           <BottomNav />

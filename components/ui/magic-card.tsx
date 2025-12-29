@@ -1,5 +1,5 @@
 "use client";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import * as React from "react";
 
 export function MagicCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -12,6 +12,10 @@ export function MagicCard({ children, className = "" }: { children: React.ReactN
     mouseY.set(clientY - top);
   }
 
+  const background = useMotionTemplate`
+    radial-gradient(600px circle at ${mouseX}px ${mouseY}px, rgba(56, 189, 248, 0.1), transparent 40%)
+  `;
+
   return (
     <div
       onMouseMove={onMouseMove}
@@ -19,9 +23,7 @@ export function MagicCard({ children, className = "" }: { children: React.ReactN
     >
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-[32px] opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{
-          background: `radial-gradient(600px circle at ${mouseX.get()}px ${mouseY.get()}px, rgba(56, 189, 248, 0.1), transparent 40%)`,
-        }}
+        style={{ background }}
       />
       {children}
     </div>

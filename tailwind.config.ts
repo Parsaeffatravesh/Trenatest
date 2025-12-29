@@ -7,7 +7,11 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-dana)", "Inter", "system-ui", "sans-serif"],
+      },
+    },
   },
   darkMode: "class",
   plugins: [],
