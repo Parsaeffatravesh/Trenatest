@@ -8,21 +8,29 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="space-y-6 lg:col-span-5">
           <FadeIn>
-            <div className="relative aspect-[1.6/1] overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-600 to-purple-700 p-8 text-white shadow-2xl shadow-sky-500/20">
-              <div className="relative z-10 flex h-full flex-col justify-between">
-                <div className="flex items-start justify-between">
-                  <Wallet size={32} strokeWidth={1.5} />
-                  <span className="text-xs font-bold tracking-widest opacity-70">DIGITAL ASSET CARD</span>
+            <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-600 to-purple-700 p-6 text-white shadow-2xl shadow-sky-500/20 sm:p-8">
+              <div className="relative z-10 flex flex-row items-center gap-4 sm:gap-6 lg:flex-col lg:items-start lg:gap-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 backdrop-blur">
+                  <Wallet size={26} strokeWidth={1.5} />
                 </div>
-                <div>
-                  <p className="mb-1 text-sm opacity-80 font-medium">Available Balance</p>
-                  <h2 className="text-4xl font-black tracking-tight">$۱۲,۴۵۰.۰۰</h2>
-                </div>
-                <div className="flex items-end justify-between">
-                  <p className="text-lg font-mono tracking-widest">**** **** 4290</p>
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-md">
-                    <ArrowUpRight size={20} />
+
+                <div className="flex-1 space-y-2 text-left lg:text-left">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/70">DIGITAL ASSET CARD</span>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-white/70">Available Balance</p>
+                    <h2 className="text-3xl font-black tracking-tight sm:text-4xl">$۱۲,۴۵۰.۰۰</h2>
                   </div>
+                  <p className="text-sm font-mono tracking-widest text-white/80">**** **** 4290</p>
+                </div>
+
+                <div className="flex flex-col items-end gap-3 lg:w-full lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest">
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-300" />
+                    فعال
+                  </div>
+                  <button className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white transition hover:bg-white/30 backdrop-blur-md">
+                    <ArrowUpRight size={20} />
+                  </button>
                 </div>
               </div>
               <div className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-white/10 blur-[80px]" />
@@ -50,7 +58,7 @@ export default function ProfilePage() {
             <MagicCard>
               <h3 className="mb-8 flex items-center gap-2 text-xl font-bold text-white">اطلاعات حساب کاربری</h3>
               <div className="space-y-6">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   <InfoItem label="نام نمایشی" value="MOHAMMAD.PRO" isEditable />
                   <InfoItem label="ایمیل" value="mohammad@trade.io" isEditable={false} />
                   <InfoItem label="زبان پنل" value="فارسی (IR)" isEditable />
@@ -59,10 +67,11 @@ export default function ProfilePage() {
 
                 <div className="border-t border-white/5 pt-6">
                   <p className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-500">Wallet Address (TRC-20)</p>
-                  <div className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-black/40 p-4">
+                  <div className="group flex flex-col gap-3 rounded-2xl border border-white/5 bg-black/40 p-4 sm:flex-row sm:items-center">
                     <code className="flex-1 break-all text-xs text-sky-400">TYv1G7p9...3x8L2mNpR4v8qZ</code>
-                    <button className="text-neutral-500 transition-colors group-hover:text-white">
-                      <Copy size={18} />
+                    <button className="inline-flex items-center gap-2 rounded-lg border border-white/5 px-3 py-2 text-[11px] font-semibold uppercase tracking-wide text-neutral-300 transition-colors hover:border-white/20 hover:text-white">
+                      <Copy size={16} />
+                      Copy
                     </button>
                   </div>
                 </div>
