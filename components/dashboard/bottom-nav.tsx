@@ -1,50 +1,58 @@
 "use client";
 
+import { useEffect } from "react";
+import { LayoutDashboard, Trophy, SwatchBook, User } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import { LayoutDashboard, Trophy, User } from "lucide-react";
 
 const navItems = [
-  { label: "داشبورد", href: "/dashboard", icon: LayoutDashboard },
-  { label: "مسابقات", href: "/dashboard/competitions", icon: Trophy },
-  { label: "مسابقات من", href: "/dashboard/my-competitions", icon: Trophy },
-  { label: "پروفایل", href: "/dashboard/profile", icon: User },
+  { name: "داشبورد", icon: LayoutDashboard, href: "/dashboard" },
+  { name: "تمام مسابقات", icon: SwatchBook, href: "/dashboard/competitions" },
+  { name: "مسابقات من", icon: Trophy, href: "/dashboard/my-competitions" },
+  { name: "پروفایل", icon: User, href: "/dashboard/profile" },
 ];
 
 export function BottomNav() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    navItems.forEach((item) => router.prefetch(item.href));
+  }, [router]);
 
   return (
-    <div className="fixed inset-x-4 bottom-4 z-50 lg:hidden" dir="rtl">
-      <nav className="flex items-center justify-between rounded-3xl border border-white/60 bg-white/80 p-2 text-xs font-semibold text-neutral-600 shadow-[0_20px_60px_rgba(15,23,42,0.15)] backdrop-blur-2xl dark:border-white/10 dark:bg-[#0b1224]/80 dark:text-neutral-200">
+    <nav
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-xl border-t border-white/10 px-6 py-3"
+      style={{ fontFamily: "var(--font-dana)" }}
+    >
+      <div className="flex justify-between items-center max-w-md mx-auto">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-
+          const isActive = pathname === item.href;
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="relative flex flex-1 flex-col items-center gap-1 rounded-2xl px-3 py-2 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/60"
-            >
+            <Link key={item.name} href={item.href} prefetch className="relative flex flex-col items-center gap-1">
+              <div
+                className={cn(
+                  "p-2 rounded-xl transition-all duration-300",
+                  isActive ? "text-sky-400 bg-sky-500/10" : "text-neutral-500"
+                )}
+              >
+                <item.icon size={20} />
+              </div>
+              <span className={cn("text-[10px] font-medium", isActive ? "text-sky-400" : "text-neutral-500")}>
+                {item.name}
+              </span>
               {isActive && (
-                <motion.span
-                  layoutId="bottom-nav-underline"
-                  className="absolute inset-x-2 -bottom-1 h-1 rounded-full bg-gradient-to-r from-sky-400 via-purple-500 to-sky-400 drop-shadow"
-                  transition={{ type: "spring", stiffness: 260, damping: 20 }}
+                <motion.div
+                  layoutId="bottomTab"
+                  className="absolute -top-3 w-8 h-1 bg-sky-500 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
                 />
               )}
-              <item.icon
-                size={22}
-                className={`transition-colors ${
-                  isActive ? "text-sky-600 dark:text-sky-400" : "text-neutral-500 dark:text-neutral-400"
-                }`}
-              />
-              <span className={isActive ? "text-neutral-800 dark:text-white" : undefined}>{item.label}</span>
             </Link>
           );
         })}
-      </nav>
-    </div>
+      </div>
+    </nav>
   );
 }
