@@ -22,25 +22,25 @@ export default function MyCompetitionsPage() {
         {[1, 2].map((item, idx) => (
           <FadeIn key={item} delay={idx * 0.1}>
             <MagicCard className="group">
-              <div className="flex flex-col items-center gap-8 lg:flex-row">
-                <div className="relative h-32 w-32 flex-shrink-0">
-                  <svg className="h-full w-full -rotate-90">
-                    <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-neutral-800" />
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-8">
+                <div className="relative h-24 w-24 flex-shrink-0 lg:h-32 lg:w-32">
+                  <svg className="h-full w-full -rotate-90" viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="50" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-neutral-800" />
                     <circle
-                      cx="64"
-                      cy="64"
-                      r="58"
+                      cx="60"
+                      cy="60"
+                      r="50"
                       stroke="currentColor"
                       strokeWidth="8"
                       fill="transparent"
-                      strokeDasharray={364}
-                      strokeDashoffset={364 - (364 * 75) / 100}
+                      strokeDasharray={314}
+                      strokeDashoffset={314 - (314 * 75) / 100}
                       className="text-sky-500 transition-all duration-1000"
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-black text-white">۷۵٪</span>
-                    <span className="text-[10px] uppercase text-neutral-500">Target</span>
+                    <span className="text-xl font-black text-white lg:text-2xl">۷۵٪</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-neutral-400 lg:text-xs">Target</span>
                   </div>
                 </div>
 
@@ -52,7 +52,7 @@ export default function MyCompetitionsPage() {
                     <p className="text-sm text-neutral-400">شروع شده در: ۱۲ آذر ۱۴۰۲</p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                  <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
                     <StatBox label="Equity" value="$10,450" color="text-white" />
                     <StatBox label="Daily Loss" value="1.2%" color="text-rose-500" />
                     <StatBox label="Total Profit" value="+$450" color="text-emerald-400" />
@@ -74,9 +74,9 @@ export default function MyCompetitionsPage() {
 
 function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="rounded-2xl border border-white/5 bg-white/5 p-3">
-      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-neutral-500">{label}</p>
-      <p className={`text-lg font-bold ${color}`}>{value}</p>
+    <div className="rounded-2xl border border-white/5 bg-white/5 p-4">
+      <p className="mb-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-neutral-400">{label}</p>
+      <p className={`text-xl font-black ${color}`}>{value}</p>
     </div>
   );
 }
