@@ -1,64 +1,82 @@
+import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Clock, TrendingUp, Trophy } from "lucide-react";
+import { Zap } from "lucide-react";
 
 export default function MyCompetitionsPage() {
   return (
-    <div className="space-y-6">
+    <div className="relative mx-auto max-w-6xl space-y-10 overflow-hidden rounded-[32px] border border-white/5 bg-gradient-to-b from-[#0b1224] to-[#05080f] p-6 text-white shadow-2xl">
       <FadeIn>
-        <h1 className="text-2xl font-bold">مسابقات من</h1>
-        <p className="text-neutral-500 text-sm">وضعیت عملکرد شما در چالش‌های فعال.</p>
+        <div className="flex items-end justify-between">
+          <div>
+            <h1 className="text-4xl font-black tracking-tighter">MY ARENA</h1>
+            <p className="mt-1 text-sm text-neutral-400">مسابقات فعال و وضعیت زنده عملکرد شما.</p>
+          </div>
+          <div className="hidden text-right md:block">
+            <p className="text-xs font-bold uppercase tracking-widest text-neutral-500">Global Rank</p>
+            <p className="text-2xl font-black text-sky-400">#1,284</p>
+          </div>
+        </div>
       </FadeIn>
 
-      {/* لیست مسابقات فعال */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-6">
         {[1, 2].map((item, idx) => (
           <FadeIn key={item} delay={idx * 0.1}>
-            <div className="group relative overflow-hidden rounded-3xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-6 shadow-sm hover:shadow-md transition-all">
-              {/* نوار وضعیت رنگی سمت راست */}
-              <div className="absolute right-0 top-0 bottom-0 w-1.5 bg-emerald-500 rounded-l-full" />
-              
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="font-bold text-lg">چالش ترید ۵۰ هزار دلاری</h3>
-                  <span className="text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 px-2 py-1 rounded-md mt-1 inline-block">
-                    در جریان
-                  </span>
+            <MagicCard className="group">
+              <div className="flex flex-col items-center gap-8 lg:flex-row">
+                <div className="relative h-32 w-32 flex-shrink-0">
+                  <svg className="h-full w-full -rotate-90">
+                    <circle cx="64" cy="64" r="58" stroke="currentColor" strokeWidth="8" fill="transparent" className="text-neutral-800" />
+                    <circle
+                      cx="64"
+                      cy="64"
+                      r="58"
+                      stroke="currentColor"
+                      strokeWidth="8"
+                      fill="transparent"
+                      strokeDasharray={364}
+                      strokeDashoffset={364 - (364 * 75) / 100}
+                      className="text-sky-500 transition-all duration-1000"
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-2xl font-black text-white">۷۵٪</span>
+                    <span className="text-[10px] uppercase text-neutral-500">Target</span>
+                  </div>
                 </div>
-                <Trophy className="text-yellow-500 h-6 w-6" />
-              </div>
 
-              {/* آمار کلیدی */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="space-y-1">
-                  <p className="text-xs text-neutral-500">سود کسب شده</p>
-                  <p className="font-bold text-emerald-600 flex items-center gap-1">
-                    <TrendingUp size={14} /> +$1,240
-                  </p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-xs text-neutral-500">رتبه فعلی</p>
-                  <p className="font-bold text-neutral-800 dark:text-neutral-200">#42</p>
-                </div>
-              </div>
+                <div className="flex-1 space-y-4 text-center lg:text-right">
+                  <div>
+                    <h2 className="flex items-center justify-center gap-2 text-2xl font-bold text-white lg:justify-start">
+                      چالش ترید طلای جهانی <Zap size={18} className="fill-amber-400 text-amber-400" />
+                    </h2>
+                    <p className="text-sm text-neutral-400">شروع شده در: ۱۲ آذر ۱۴۰۲</p>
+                  </div>
 
-              {/* نوار زمان */}
-              <div className="space-y-2">
-                <div className="flex justify-between text-xs text-neutral-500">
-                  <span className="flex items-center gap-1"><Clock size={12} /> زمان باقی‌مانده</span>
-                  <span>۱۲ روز</span>
+                  <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+                    <StatBox label="Equity" value="$10,450" color="text-white" />
+                    <StatBox label="Daily Loss" value="1.2%" color="text-rose-500" />
+                    <StatBox label="Total Profit" value="+$450" color="text-emerald-400" />
+                    <StatBox label="Days Left" value="۱۴ روز" color="text-sky-400" />
+                  </div>
                 </div>
-                <div className="h-2 w-full bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
-                  <div className="h-full bg-neutral-800 dark:bg-white w-[60%] rounded-full" />
-                </div>
+
+                <button className="w-full rounded-2xl bg-white px-8 py-4 font-black text-black transition-transform hover:scale-105 lg:w-auto">
+                  ENTER TERMINAL
+                </button>
               </div>
-              
-              <button className="w-full mt-6 py-2 rounded-xl bg-neutral-900 dark:bg-white text-white dark:text-black font-medium text-sm opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-2 group-hover:translate-y-0">
-                مشاهده جزئیات
-              </button>
-            </div>
+            </MagicCard>
           </FadeIn>
         ))}
       </div>
+    </div>
+  );
+}
+
+function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
+  return (
+    <div className="rounded-2xl border border-white/5 bg-white/5 p-3">
+      <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-neutral-500">{label}</p>
+      <p className={`text-lg font-bold ${color}`}>{value}</p>
     </div>
   );
 }

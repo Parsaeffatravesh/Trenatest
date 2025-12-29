@@ -1,119 +1,151 @@
+"use client";
+
+import { useMemo, useState } from "react";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Activity, CreditCard, DollarSign, Users, TrendingUp } from "lucide-react";
+import { Activity, ArrowUpRight, Flame, Rocket, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { MagicCard } from "@/components/ui/magic-card";
+
+const formatGradient = (x: number, y: number) =>
+  `radial-gradient(900px circle at ${x}% ${y}%, rgba(56, 189, 248, 0.18), transparent 35%), radial-gradient(700px circle at ${
+    100 - x
+  }% ${Math.max(10, y - 10)}%, rgba(139, 92, 246, 0.14), transparent 40%)`;
 
 export default function DashboardPage() {
-  const stats = [
-    { title: "درآمد کل", value: "$45,231.89", icon: DollarSign, change: "+20.1%" },
-    { title: "اشتراک‌ها", value: "+2350", icon: Users, change: "+180.1%" },
-    { title: "فروش‌ها", value: "+12,234", icon: CreditCard, change: "+19%" },
-    { title: "فعال در لحظه", value: "+573", icon: Activity, change: "+201" },
+  const [spot, setSpot] = useState({ x: 50, y: 30 });
+
+  const gradient = useMemo(() => formatGradient(spot.x, spot.y), [spot]);
+
+  const tiles = [
+    { title: "سود امروز", value: "+$1,240", accent: "text-emerald-400", badge: "+3.4%", icon: ArrowUpRight },
+    { title: "درصد موفقیت", value: "68%", accent: "text-sky-400", badge: "Stable", icon: ShieldCheck },
+    { title: "تریدرهای فعال", value: "573", accent: "text-purple-300", badge: "Live", icon: Activity },
+    { title: "مسابقه فعال", value: "چالش الماس", accent: "text-amber-300", badge: "Top 50", icon: Flame },
+  ];
+
+  const quickActions = [
+    { label: "شروع ترید", icon: Rocket },
+    { label: "شارژ حساب", icon: Zap },
+    { label: "گزارش سریع", icon: Sparkles },
   ];
 
   return (
-    <div className="w-full max-w-7xl mx-auto space-y-8">
-      {/* Header */}
+    <div className="space-y-8">
       <FadeIn>
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 dark:text-white">
-              داشبورد
-            </h1>
-            <p className="text-neutral-500 mt-2 text-sm">نگاهی کلی به عملکرد حساب کاربری شما.</p>
+        <header className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs uppercase tracking-[0.3em] text-neutral-500">Control Center</p>
+            <h1 className="text-4xl font-black tracking-tight text-neutral-900 dark:text-white">نگاه کلی</h1>
+            <p className="text-sm text-neutral-500">وضعیت سرمایه، مسابقات فعال و اقدامات سریع در یک قاب.</p>
           </div>
-          <div className="flex gap-3">
-            <button className="bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-neutral-50 transition-colors shadow-sm">
-              فیلترها
-            </button>
-            <button className="bg-black dark:bg-white text-white dark:text-black px-5 py-2.5 rounded-xl text-sm font-bold hover:shadow-lg hover:-translate-y-0.5 transition-all shadow-black/20">
-              دریافت گزارش
-            </button>
+          <div className="flex items-center gap-2">
+            {quickActions.map((action) => (
+              <button
+                key={action.label}
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/80 px-4 py-2 text-xs font-semibold text-neutral-700 shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:shadow-lg dark:border-white/10 dark:bg-white/10 dark:text-neutral-100"
+              >
+                <action.icon size={14} />
+                {action.label}
+              </button>
+            ))}
           </div>
-        </div>
+        </header>
       </FadeIn>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {stats.map((item, index) => (
-          <FadeIn key={item.title} delay={index * 0.1}>
-            <div className="p-6 rounded-[24px] border border-neutral-200/60 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm hover:shadow-xl hover:shadow-neutral-200/40 dark:hover:shadow-neutral-900/50 transition-all duration-300 group">
-              <div className="flex flex-row items-center justify-between pb-4">
-                <span className="text-sm font-medium text-neutral-500 group-hover:text-emerald-500 transition-colors">
-                  {item.title}
-                </span>
-                <div className="p-2 bg-neutral-100 dark:bg-neutral-800 rounded-full group-hover:bg-emerald-50 dark:group-hover:bg-emerald-900/20 transition-colors">
-                  <item.icon className="h-4 w-4 text-neutral-500 group-hover:text-emerald-600" />
+      <div
+        className="relative overflow-hidden rounded-[32px] border border-white/20 bg-gradient-to-br from-white via-white to-[#e2e8f0] p-6 shadow-xl dark:from-[#0b1224] dark:via-[#0b1224] dark:to-[#060a14]"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          setSpot({ x: Math.round(x), y: Math.round(y) });
+        }}
+      >
+        <div
+          className="absolute inset-0 opacity-80 transition-opacity duration-700"
+          style={{ backgroundImage: gradient }}
+        />
+        <div className="relative z-10 grid grid-cols-1 gap-4 lg:grid-cols-4">
+          {tiles.map((tile, idx) => (
+            <FadeIn key={tile.title} delay={idx * 0.05}>
+              <div className="group relative overflow-hidden rounded-[28px] border border-neutral-200/60 bg-white/90 p-5 shadow-sm backdrop-blur transition-all hover:-translate-y-1 hover:shadow-2xl dark:border-white/10 dark:bg-white/5">
+                <div className="flex items-center justify-between">
+                  <div className={`text-xs font-bold uppercase tracking-wider text-neutral-500 ${tile.accent}`}>{tile.title}</div>
+                  <div className="rounded-2xl bg-neutral-100 px-2 py-1 text-[11px] font-semibold text-neutral-600 dark:bg-white/10 dark:text-neutral-300">
+                    {tile.badge}
+                  </div>
+                </div>
+                <div className="mt-4 flex items-baseline gap-2">
+                  <tile.icon className={`${tile.accent} opacity-80`} size={18} />
+                  <p className="text-3xl font-black text-neutral-900 dark:text-white">{tile.value}</p>
+                </div>
+                <div className="mt-6 h-[3px] w-full overflow-hidden rounded-full bg-neutral-200/70 dark:bg-white/5">
+                  <div
+                    className="h-full rounded-full bg-gradient-to-r from-sky-400 via-purple-500 to-amber-400"
+                    style={{ width: `${60 + idx * 8}%` }}
+                  />
                 </div>
               </div>
-
-              <div className="text-2xl font-bold text-neutral-800 dark:text-neutral-100">{item.value}</div>
-
-              <p className="text-xs text-neutral-500 mt-2 flex items-center gap-1">
-                <span className="text-emerald-500 font-bold bg-emerald-50 dark:bg-emerald-900/20 px-1.5 py-0.5 rounded-md flex items-center gap-1">
-                  <TrendingUp size={12} /> {item.change}
-                </span>
-                نسبت به ماه قبل
-              </p>
-            </div>
-          </FadeIn>
-        ))}
+            </FadeIn>
+          ))}
+        </div>
       </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
-        {/* Chart */}
-        <div className="lg:col-span-4">
-          <FadeIn delay={0.4} className="h-full">
-            <div className="h-[450px] rounded-[32px] border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-8 shadow-sm flex flex-col">
-              <div className="mb-6">
-                <h3 className="font-bold text-lg">نمودار فروش</h3>
-                <p className="text-sm text-neutral-500">تحلیل داده‌های ۶ ماه اخیر</p>
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+        <FadeIn className="xl:col-span-2">
+          <MagicCard className="bg-neutral-900/60 p-6 border border-white/10 shadow-2xl">
+            <div className="mb-6 flex items-center justify-between text-white">
+              <div>
+                <p className="text-xs uppercase tracking-[0.3em] text-neutral-400">Active Challenge</p>
+                <h3 className="text-2xl font-black">لیگ قهرمانان ۵۰k</h3>
               </div>
-
-              <div className="w-full flex-1 flex items-center justify-center text-neutral-400 bg-neutral-50 dark:bg-neutral-950/50 border-2 border-dashed border-neutral-100 dark:border-neutral-800 rounded-2xl relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <span>محل قرارگیری نمودار (Recharts)</span>
-              </div>
+              <div className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-amber-300">Top 12%</div>
             </div>
-          </FadeIn>
-        </div>
 
-        {/* Recent Transactions */}
-        <div className="lg:col-span-3">
-          <FadeIn delay={0.5} className="h-full">
-            <div className="h-[450px] rounded-[32px] border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 p-8 shadow-sm flex flex-col">
-              <div className="mb-6 flex justify-between items-center">
-                <h3 className="font-bold text-lg">تراکنش‌های اخیر</h3>
-                <button className="text-xs font-medium text-emerald-600 hover:text-emerald-500">
-                  مشاهده همه
-                </button>
-              </div>
-
-              <div className="space-y-6 overflow-y-auto pr-2 custom-scrollbar">
-                {[1, 2, 3, 4, 5, 6].map((_, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center group cursor-pointer p-2 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 rounded-xl transition-colors"
-                  >
-                    <div className="h-10 w-10 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-xs font-bold text-neutral-600 dark:text-neutral-400 group-hover:bg-emerald-500 group-hover:text-white transition-colors shadow-sm">
-                      AR
-                    </div>
-
-                    <div className="mr-4 space-y-1">
-                      <p className="text-sm font-bold leading-none text-neutral-800 dark:text-neutral-200">
-                        علی رضایی
-                      </p>
-                      <p className="text-xs text-neutral-500">ali.rezaei@email.com</p>
-                    </div>
-
-                    <div className="mr-auto font-bold text-sm text-neutral-900 dark:text-white">
-                      +$1,999.00
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4 text-white">
+              {[
+                { label: "Equity", value: "$10,450", tone: "text-sky-200" },
+                { label: "Win Rate", value: "68%", tone: "text-emerald-300" },
+                { label: "Drawdown", value: "-2.1%", tone: "text-rose-300" },
+                { label: "Time Left", value: "۱۲ روز", tone: "text-amber-200" },
+              ].map((item) => (
+                <div key={item.label} className="rounded-2xl border border-white/5 bg-white/5 p-4 shadow-inner">
+                  <p className="text-[11px] uppercase tracking-widest text-neutral-400">{item.label}</p>
+                  <p className={`mt-2 text-xl font-black ${item.tone}`}>{item.value}</p>
+                </div>
+              ))}
             </div>
-          </FadeIn>
-        </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3 text-xs text-neutral-300">
+              <span className="rounded-full bg-white/10 px-3 py-1">قوانین: حداکثر دراوداون ۵٪</span>
+              <span className="rounded-full bg-amber-500/10 px-3 py-1 text-amber-200">زمان پایان: ۱۲ دی</span>
+              <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-200">حالت: فعال</span>
+            </div>
+          </MagicCard>
+        </FadeIn>
+
+        <FadeIn>
+          <div className="h-full rounded-[32px] border border-neutral-200/70 bg-white/90 p-6 shadow-md dark:border-white/10 dark:bg-white/5 backdrop-blur">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.25em] text-neutral-500">Pulse</p>
+                <h3 className="text-xl font-black text-neutral-900 dark:text-white">حسگر سریع</h3>
+              </div>
+              <Sparkles className="text-sky-400" />
+            </div>
+
+            <div className="mt-6 space-y-4 text-sm">
+              {["وضعیت سرور: پایدار", "آخرین همگام‌سازی: ۲ دقیقه پیش", "نوتیفیکیشن‌ها: ۳ پیام خوانده نشده"].map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center justify-between rounded-2xl border border-neutral-200/80 bg-neutral-50 px-4 py-3 text-neutral-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-neutral-200"
+                >
+                  <span>{item}</span>
+                  <div className="h-2 w-2 rounded-full bg-emerald-500" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </FadeIn>
       </div>
     </div>
   );

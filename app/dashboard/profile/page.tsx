@@ -1,76 +1,88 @@
+import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import { User, Camera, BadgeCheck } from "lucide-react";
+import { Wallet, ShieldCheck, Copy, ArrowUpRight } from "lucide-react";
 
 export default function ProfilePage() {
   return (
-    <div className="max-w-5xl mx-auto">
-      <FadeIn>
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          
-          {/* Sidebar - User Info Card */}
-          <div className="md:col-span-4 space-y-4">
-            <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-6 flex flex-col items-center text-center">
-              <div className="relative mb-4 group cursor-pointer">
-                <div className="w-28 h-28 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-4xl overflow-hidden border-4 border-white dark:border-neutral-900 shadow-lg">
-                  🧔🏻‍♂️
-                  {/* Image Placeholder */}
+    <div className="relative mx-auto max-w-5xl space-y-8 overflow-hidden rounded-[32px] border border-white/5 bg-gradient-to-b from-[#0b1224] to-[#05080f] p-6 pb-20 text-white shadow-2xl">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="space-y-6 lg:col-span-5">
+          <FadeIn>
+            <div className="relative aspect-[1.6/1] overflow-hidden rounded-[32px] bg-gradient-to-br from-sky-600 to-purple-700 p-8 text-white shadow-2xl shadow-sky-500/20">
+              <div className="relative z-10 flex h-full flex-col justify-between">
+                <div className="flex items-start justify-between">
+                  <Wallet size={32} strokeWidth={1.5} />
+                  <span className="text-xs font-bold tracking-widest opacity-70">DIGITAL ASSET CARD</span>
                 </div>
-                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Camera className="text-white" />
+                <div>
+                  <p className="mb-1 text-sm opacity-80 font-medium">Available Balance</p>
+                  <h2 className="text-4xl font-black tracking-tight">$۱۲,۴۵۰.۰۰</h2>
                 </div>
-                <div className="absolute bottom-0 right-0 bg-emerald-500 text-white p-1.5 rounded-full border-4 border-white dark:border-neutral-900">
-                    <BadgeCheck size={16} />
+                <div className="flex items-end justify-between">
+                  <p className="text-lg font-mono tracking-widest">**** **** 4290</p>
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/20 backdrop-blur-md">
+                    <ArrowUpRight size={20} />
+                  </div>
                 </div>
               </div>
-              <h2 className="text-xl font-bold">محمد احمدی</h2>
-              <p className="text-sm text-neutral-500">سطح: تریدر حرفه‌ای</p>
-              
-              <div className="w-full mt-6 space-y-2">
-                 <div className="flex justify-between text-sm py-2 border-b border-neutral-100 dark:border-neutral-800">
-                    <span className="text-neutral-500">عضویت</span>
-                    <span className="font-medium">۳ ماه</span>
-                 </div>
-                 <div className="flex justify-between text-sm py-2">
-                    <span className="text-neutral-500">وضعیت</span>
-                    <span className="text-emerald-500 font-medium">احراز شده</span>
-                 </div>
-              </div>
+              <div className="absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-white/10 blur-[80px]" />
             </div>
-          </div>
+          </FadeIn>
 
-          {/* Main Content - Forms */}
-          <div className="md:col-span-8 space-y-6">
-            <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-3xl p-8">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-neutral-100 dark:bg-neutral-800 rounded-lg"><User size={20}/></div>
-                <h3 className="text-lg font-bold">اطلاعات شخصی</h3>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-600 dark:text-neutral-400">نام کامل</label>
-                  <input type="text" defaultValue="محمد احمدی" className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" />
+          <FadeIn delay={0.2}>
+            <MagicCard className="p-4 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="rounded-xl bg-emerald-500/10 p-2 text-emerald-500">
+                  <ShieldCheck size={20} />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-neutral-600 dark:text-neutral-400">ایمیل</label>
-                  <input type="email" defaultValue="mohammad@example.com" className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" />
-                </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-medium text-neutral-600 dark:text-neutral-400">بیوگرافی کوتاه</label>
-                  <textarea rows={3} className="w-full px-4 py-3 rounded-xl bg-neutral-50 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="درباره استراتژی ترید خود بنویسید..." />
+                <div>
+                  <p className="text-sm font-bold text-white">وضعیت احراز هویت</p>
+                  <p className="text-xs text-neutral-500">تایید شده در سطح ۲</p>
                 </div>
               </div>
-              
-              <div className="flex justify-end mt-8">
-                <button className="px-6 py-2.5 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-medium hover:opacity-90 transition-opacity">
-                    ذخیره تغییرات
-                </button>
-              </div>
-            </div>
-          </div>
-
+              <div className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+            </MagicCard>
+          </FadeIn>
         </div>
-      </FadeIn>
+
+        <div className="space-y-6 lg:col-span-7">
+          <FadeIn delay={0.3}>
+            <MagicCard>
+              <h3 className="mb-8 flex items-center gap-2 text-xl font-bold text-white">اطلاعات حساب کاربری</h3>
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                  <InfoItem label="نام نمایشی" value="MOHAMMAD.PRO" isEditable />
+                  <InfoItem label="ایمیل" value="mohammad@trade.io" isEditable={false} />
+                  <InfoItem label="زبان پنل" value="فارسی (IR)" isEditable />
+                  <InfoItem label="منطقه زمانی" value="UTC +3:30" isEditable />
+                </div>
+
+                <div className="border-t border-white/5 pt-6">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-neutral-500">Wallet Address (TRC-20)</p>
+                  <div className="group flex items-center gap-3 rounded-2xl border border-white/5 bg-black/40 p-4">
+                    <code className="flex-1 break-all text-xs text-sky-400">TYv1G7p9...3x8L2mNpR4v8qZ</code>
+                    <button className="text-neutral-500 transition-colors group-hover:text-white">
+                      <Copy size={18} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </MagicCard>
+          </FadeIn>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoItem({ label, value, isEditable }: { label: string; value: string; isEditable: boolean }) {
+  return (
+    <div className="space-y-1.5">
+      <p className="text-[11px] font-bold uppercase tracking-wider text-neutral-500">{label}</p>
+      <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 px-4 py-3">
+        <span className="text-sm text-neutral-200">{value}</span>
+        {isEditable && <button className="text-[10px] font-bold text-sky-500 hover:underline">ویرایش</button>}
+      </div>
     </div>
   );
 }
