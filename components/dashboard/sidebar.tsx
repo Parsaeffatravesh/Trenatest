@@ -27,7 +27,7 @@ export function Sidebar() {
     <motion.div
       animate={{ width: isCollapsed ? 80 : 260 }}
       transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 20 }}
-      className="relative h-screen bg-[#0b1224]/70 border-l border-white/10 flex flex-col z-50 shadow-[0_0_40px_rgba(2,6,23,0.6)] backdrop-blur"
+      className="hidden lg:flex relative h-screen bg-[#0b1224]/70 border-l border-white/10 flex-col z-50 shadow-[0_0_40px_rgba(2,6,23,0.6)] backdrop-blur"
       dir="rtl"
       style={{ fontFamily: "var(--font-dana)" }}
     >

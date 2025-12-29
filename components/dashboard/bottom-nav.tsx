@@ -29,7 +29,7 @@ export function BottomNav() {
     >
       <div className="flex justify-between items-center max-w-md mx-auto">
         {navItems.map((item) => {
-          const isActive = pathname === item.href;
+          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
           return (
             <Link key={item.name} href={item.href} prefetch className="relative flex flex-col items-center gap-1">
               <div
