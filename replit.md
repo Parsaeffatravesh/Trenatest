@@ -1,8 +1,8 @@
-# Trenatest Trading Dashboard
+# Trenatest User Dashboard
 
 ## Overview
 
-A professional trading terminal UI built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. The application provides real-time market data visualization, order management, portfolio tracking, and a competition/gamification layer for traders. It supports dual-language (English/Persian) with RTL layout, dark/light themes, and is designed for both desktop and mobile experiences.
+A user dashboard panel built with Next.js 14 (App Router), TypeScript, and Tailwind CSS. The application provides competition management, user profile, and dashboard features. It supports Persian language with RTL layout, dark/light themes, and is designed for both desktop and mobile experiences.
 
 ## User Preferences
 
@@ -18,39 +18,27 @@ Preferred communication style: Simple, everyday language.
 - **Icons**: Lucide React for consistent iconography
 
 ### Project Structure
-The codebase follows a hybrid structure with both Next.js App Router (`app/`) and a Vite-based React setup (`src/`):
-
 ```
 app/                    # Next.js App Router pages and layouts
   dashboard/            # Dashboard section with nested routes
-  fonts/                # Local font files
+    competitions/       # All competitions page
+    my-competitions/    # User's competitions page
+    profile/            # User profile page
+  fonts/                # Local font files (Dana)
   globals.css           # Global styles
   layout.tsx            # Root layout with theme provider
 
 components/             # Shared UI components
-  dashboard/            # Dashboard-specific components (sidebar, bottom-nav)
-  layout/               # Layout components (Header, MobileNav)
-  market/               # Market data components (OrderBook, RecentTrades)
-  positions/            # Position and order management
-  trade/                # Trading interface components
-  trading/cards/        # Card-based trading widgets
-  ui/                   # Reusable UI primitives (MagicCard, FadeIn, etc.)
+  dashboard/            # Dashboard-specific components
+    sidebar.tsx         # Desktop sidebar navigation
+    bottom-nav.tsx      # Mobile bottom navigation
+    overview-chart.tsx  # Dashboard chart component
+  ui/                   # Reusable UI primitives
 
-lib/                    # Utilities and data
-  api/                  # API client with idempotency support
-  data/                 # Mock data generators
-  format.ts             # Number/price formatting with i18n
-  i18n.ts               # Translation system (EN/FA)
-  mockData.ts           # Static mock data
-
-src/                    # Alternative Vite-based structure
-  components/           # Common and trading components
-  hooks/                # Custom React hooks
-  pages/                # Route-level views
-  services/             # API/WebSocket clients
-  theme/                # Design tokens and CSS variables
-
-types/                  # TypeScript type definitions
+lib/                    # Utilities
+  api/                  # API client
+  format.ts             # Number formatting
+  utils.ts              # Utility functions
 ```
 
 ### State Management Strategy
