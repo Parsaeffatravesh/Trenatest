@@ -8,20 +8,22 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         <div className="lg:col-span-5 space-y-6">
           <FadeIn>
-            <div className="relative overflow-hidden rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-sky-600 to-purple-700 p-6 sm:p-8 text-white shadow-2xl">
-              <div className="relative z-10 flex flex-col space-y-10 sm:space-y-16">
-                <div className="flex justify-between items-start">
-                  <Wallet size={28} className="opacity-90" />
-                  <span className="text-[10px] font-bold tracking-widest bg-white/20 px-2 py-1 rounded-md">MAIN WALLET</span>
+            <div className="relative overflow-hidden rounded-[28px] sm:rounded-[32px] bg-gradient-to-br from-sky-600 to-purple-700 p-5 sm:p-8 text-white shadow-2xl">
+              <div className="relative z-10 flex flex-row flex-wrap items-center justify-between gap-4 sm:flex-col sm:items-start sm:gap-12">
+                <div className="flex items-center gap-3">
+                  <Wallet size={24} className="opacity-90 sm:h-7 sm:w-7" />
+                  <span className="text-[9px] font-bold tracking-widest bg-white/20 px-2 py-1 rounded-md sm:text-[10px]">
+                    MAIN WALLET
+                  </span>
                 </div>
-                <div>
-                  <p className="text-xs opacity-70 mb-1">Available Balance</p>
-                  <h2 className="text-3xl sm:text-4xl font-black">$۱۲,۴۵۰.۰۰</h2>
+                <div className="text-right sm:text-left">
+                  <p className="text-[10px] opacity-70 mb-1 sm:text-xs">Available Balance</p>
+                  <h2 className="text-2xl sm:text-4xl font-black">$۱۲,۴۵۰.۰۰</h2>
                 </div>
-                <div className="flex justify-between items-center">
-                  <p className="text-sm font-mono tracking-[0.2em]">**** 4290</p>
+                <div className="flex items-center gap-3">
+                  <p className="text-xs font-mono tracking-[0.18em] sm:text-sm">**** 4290</p>
                   <button className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors">
-                    <ArrowUpRight size={20} />
+                    <ArrowUpRight size={18} className="sm:h-5 sm:w-5" />
                   </button>
                 </div>
               </div>
