@@ -1,7 +1,12 @@
+import dynamic from "next/dynamic";
 import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import { OverviewChart } from "@/components/dashboard/overview-chart";
 import { Activity, DollarSign, TrendingUp, Users, Zap } from "lucide-react";
+
+const OverviewChart = dynamic(
+  () => import("@/components/dashboard/overview-chart").then((mod) => mod.OverviewChart),
+  { ssr: false, loading: () => <div className="h-full w-full animate-pulse bg-white/5 rounded-2xl" /> }
+);
 
 export default function DashboardPage() {
   const stats = [
