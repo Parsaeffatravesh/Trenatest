@@ -2,15 +2,26 @@
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import * as React from "react";
 
-export function MagicCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+const MagicCardInner = React.memo(function MagicCardInner({ 
+  children, 
+  className = "" 
+}: { 
+  children: React.ReactNode; 
+  className?: string 
+}) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const lastUpdateRef = React.useRef(0);
 
-  function onMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
+  const onMouseMove = React.useCallback(({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) => {
+    const now = performance.now();
+    if (now - lastUpdateRef.current < 32) return;
+    lastUpdateRef.current = now;
+    
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
-  }
+  }, [mouseX, mouseY]);
 
   const background = useMotionTemplate`
     radial-gradient(520px circle at ${mouseX}px ${mouseY}px, rgba(56, 189, 248, 0.18), transparent 40%),
@@ -24,9 +35,13 @@ export function MagicCard({ children, className = "" }: { children: React.ReactN
     >
       <motion.div
         className="pointer-events-none absolute -inset-px rounded-[32px] opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{ background }}
+        style={{ background, willChange: "background" }}
       />
       {children}
     </div>
   );
+});
+
+export function MagicCard({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <MagicCardInner className={className}>{children}</MagicCardInner>;
 }

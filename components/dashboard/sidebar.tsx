@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutDashboard, Trophy, ChevronLeft, ChevronRight, LogOut, User, SwatchBook } from "lucide-react";
 import Link from "next/link";
@@ -14,20 +14,60 @@ const menuItems = [
   { name: "پروفایل", icon: User, href: "/dashboard/profile" },
 ];
 
-export function Sidebar() {
+const MenuItem = memo(function MenuItem({ 
+  item, 
+  isActive, 
+  isCollapsed,
+  onHover 
+}: { 
+  item: typeof menuItems[0]; 
+  isActive: boolean; 
+  isCollapsed: boolean;
+  onHover: (href: string) => void;
+}) {
+  return (
+    <Link
+      href={item.href}
+      prefetch={false}
+      onMouseEnter={() => onHover(item.href)}
+      className={cn(
+        "flex items-center p-3 rounded-2xl transition-colors group relative overflow-hidden",
+        isActive
+          ? "bg-sky-500/10 text-sky-300"
+          : "text-slate-400 hover:bg-white/5 hover:text-sky-300"
+      )}
+    >
+      <item.icon size={22} className="flex-shrink-0 z-10" />
+      <span 
+        className={cn(
+          "mr-4 font-medium text-sm whitespace-nowrap z-10 transition-opacity duration-150",
+          isCollapsed ? "opacity-0 w-0" : "opacity-100"
+        )}
+      >
+        {item.name}
+      </span>
+      {!isCollapsed && isActive && (
+        <div className="absolute inset-0 bg-sky-500/10 rounded-2xl" />
+      )}
+    </Link>
+  );
+});
+
+export const Sidebar = memo(function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
-  useEffect(() => {
-    menuItems.forEach((item) => router.prefetch(item.href));
+  const handlePrefetch = useCallback((href: string) => {
+    router.prefetch(href);
   }, [router]);
 
   return (
-    <motion.div
-      animate={{ width: isCollapsed ? 80 : 260 }}
-      transition={{ duration: 0.5, type: "spring", stiffness: 200, damping: 20 }}
-      className="hidden lg:flex relative h-screen bg-[#0b1224]/70 border-l border-white/10 flex-col z-50 shadow-[0_0_40px_rgba(2,6,23,0.6)] backdrop-blur"
+    <div
+      className={cn(
+        "hidden lg:flex relative h-screen bg-[#0b1224]/70 border-l border-white/10 flex-col z-50 shadow-[0_0_40px_rgba(2,6,23,0.6)] backdrop-blur transition-[width] duration-300 ease-out",
+        isCollapsed ? "w-20" : "w-[260px]"
+      )}
       dir="rtl"
       style={{ fontFamily: "var(--font-dana)" }}
     >
@@ -57,38 +97,15 @@ export function Sidebar() {
 
       <nav className="flex-1 space-y-2 px-3 mt-6">
         {menuItems.map((item) => {
-          const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-
+          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
           return (
-            <Link
+            <MenuItem
               key={item.name}
-              href={item.href}
-              prefetch
-              className={cn(
-                "flex items-center p-3 rounded-2xl transition-all group relative overflow-hidden",
-                isActive
-                  ? "bg-sky-500/10 text-sky-300"
-                  : "text-slate-400 hover:bg-white/5 hover:text-sky-300"
-              )}
-            >
-              <item.icon size={22} className="flex-shrink-0 z-10" />
-              <AnimatePresence>
-                {!isCollapsed && (
-                  <motion.span
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 10 }}
-                    className="mr-4 font-medium text-sm whitespace-nowrap z-10"
-                  >
-                    {item.name}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-
-              {!isCollapsed && isActive && (
-                <div className="absolute inset-0 bg-sky-500/10 opacity-100 transition-opacity rounded-2xl" />
-              )}
-            </Link>
+              item={item}
+              isActive={isActive}
+              isCollapsed={isCollapsed}
+              onHover={handlePrefetch}
+            />
           );
         })}
       </nav>
@@ -96,9 +113,14 @@ export function Sidebar() {
       <div className="p-4 border-t border-white/10">
         <button className="flex w-full items-center justify-center p-3 rounded-2xl bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition-all">
           <LogOut size={20} />
-          {!isCollapsed && <span className="mr-3 text-sm font-medium">خروج از حساب</span>}
+          <span className={cn(
+            "mr-3 text-sm font-medium transition-opacity duration-150",
+            isCollapsed ? "opacity-0 w-0" : "opacity-100"
+          )}>
+            خروج از حساب
+          </span>
         </button>
       </div>
-    </motion.div>
+    </div>
   );
-}
+});
