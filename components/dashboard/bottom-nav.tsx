@@ -24,7 +24,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-neutral-950/80 backdrop-blur-xl border-t border-white/10 px-6 py-3"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0b1224]/80 backdrop-blur-xl border-t border-white/10 px-6 py-3"
       style={{ fontFamily: "var(--font-dana)" }}
     >
       <div className="flex justify-between items-center max-w-md mx-auto">
@@ -35,18 +35,18 @@ export function BottomNav() {
               <div
                 className={cn(
                   "p-2 rounded-xl transition-all duration-300",
-                  isActive ? "text-sky-400 bg-sky-500/10" : "text-neutral-500"
+                  isActive ? "text-sky-300 bg-sky-500/10" : "text-slate-400"
                 )}
               >
                 <item.icon size={20} />
               </div>
-              <span className={cn("text-[10px] font-medium", isActive ? "text-sky-400" : "text-neutral-500")}>
+              <span className={cn("text-[10px] font-medium", isActive ? "text-sky-300" : "text-slate-400")}>
                 {item.name}
               </span>
               {isActive && (
                 <motion.div
                   layoutId="bottomTab"
-                  className="absolute -top-3 w-8 h-1 bg-sky-500 rounded-full shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+                  className="absolute -top-3 w-8 h-1 bg-sky-400 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.7)]"
                 />
               )}
             </Link>

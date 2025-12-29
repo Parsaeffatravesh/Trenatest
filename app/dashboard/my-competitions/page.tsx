@@ -8,12 +8,12 @@ export default function MyCompetitionsPage() {
       <FadeIn>
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-white">MY ARENA</h1>
-            <p className="text-neutral-500 text-sm">وضعیت چالش‌های فعال شما</p>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-white">ACTIVE ARENA</h1>
+            <p className="text-slate-500 text-sm">وضعیت چالش‌های فعال شما</p>
           </div>
           <div className="bg-white/5 px-4 py-2 rounded-2xl border border-white/10">
-            <p className="text-[10px] text-neutral-500 uppercase font-bold tracking-widest">Global Rank</p>
-            <p className="text-xl font-black text-sky-400">#1,284</p>
+            <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Global Rank</p>
+            <p className="text-xl font-black text-sky-300">#1,284</p>
           </div>
         </div>
       </FadeIn>
@@ -35,12 +35,12 @@ export default function MyCompetitionsPage() {
                       fill="transparent"
                       strokeDasharray={314}
                       strokeDashoffset={314 - (314 * 75) / 100}
-                      className="text-sky-500"
+                      className="text-emerald-400"
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-xl sm:text-2xl font-black text-white">۷۵٪</span>
-                    <span className="text-[9px] text-neutral-500 uppercase">Target</span>
+                    <span className="text-[9px] text-slate-500 uppercase">Profit Target</span>
                   </div>
                 </div>
 
@@ -49,14 +49,14 @@ export default function MyCompetitionsPage() {
                     <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center justify-center lg:justify-start gap-2">
                       چالش ترید طلا <Zap size={18} className="text-amber-400 fill-amber-400" />
                     </h2>
-                    <p className="text-neutral-500 text-xs sm:text-sm">شروع: ۱۲ آذر ۱۴۰۲</p>
+                    <p className="text-slate-500 text-xs sm:text-sm">شروع: ۱۲ آذر ۱۴۰۲</p>
                   </div>
 
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                     <StatBox label="Equity" value="$10,450" color="text-white" />
-                    <StatBox label="Daily Loss" value="1.2%" color="text-rose-500" />
+                    <StatBox label="Daily Loss" value="1.2%" color="text-rose-400" />
                     <StatBox label="Profit" value="+$450" color="text-emerald-400" />
-                    <StatBox label="Time" value="۱۴ روز" color="text-sky-400" />
+                    <StatBox label="Time Left" value="۱۴ روز" color="text-sky-300" />
                   </div>
                 </div>
 
@@ -75,7 +75,7 @@ export default function MyCompetitionsPage() {
 function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
   return (
     <div className="bg-white/5 p-3 rounded-xl border border-white/5 flex flex-col items-center lg:items-start">
-      <p className="text-[9px] sm:text-[10px] text-neutral-500 uppercase font-bold mb-1">{label}</p>
+      <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold mb-1">{label}</p>
       <p className={`text-sm sm:text-lg font-bold ${color}`}>{value}</p>
     </div>
   );

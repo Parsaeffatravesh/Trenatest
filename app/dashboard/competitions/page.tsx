@@ -16,15 +16,16 @@ type Competition = {
   participants: number;
   status: CompetitionStatus;
   type: CompetitionType;
+  timeLeft: string;
 };
 
 const competitions: Competition[] = [
-  { id: 1, title: "لیگ الماس ماهانه", entryFee: 49, prizePool: 25000, participants: 250, status: "open", type: "neon" },
-  { id: 2, title: "چالش شبانه نقره", entryFee: 0, prizePool: 5000, participants: 120, status: "closing", type: "classic" },
-  { id: 3, title: "نبرد پروفشنال", entryFee: 99, prizePool: 50000, participants: 90, status: "open", type: "pro" },
-  { id: 4, title: "تورنمنت سرعتی", entryFee: 29, prizePool: 12000, participants: 210, status: "full", type: "classic" },
-  { id: 5, title: "لیگ پریمیوم", entryFee: 79, prizePool: 30000, participants: 140, status: "closing", type: "neon" },
-  { id: 6, title: "چالش استارتاپ", entryFee: 15, prizePool: 8000, participants: 320, status: "open", type: "classic" },
+  { id: 1, title: "لیگ الماس ماهانه", entryFee: 49, prizePool: 25000, participants: 250, status: "open", type: "neon", timeLeft: "۱۲ روز" },
+  { id: 2, title: "چالش شبانه نقره", entryFee: 0, prizePool: 5000, participants: 120, status: "closing", type: "classic", timeLeft: "۴ ساعت" },
+  { id: 3, title: "نبرد پروفشنال", entryFee: 99, prizePool: 50000, participants: 90, status: "open", type: "pro", timeLeft: "۱۹ روز" },
+  { id: 4, title: "تورنمنت سرعتی", entryFee: 29, prizePool: 12000, participants: 210, status: "full", type: "classic", timeLeft: "اتمام" },
+  { id: 5, title: "لیگ پریمیوم", entryFee: 79, prizePool: 30000, participants: 140, status: "closing", type: "neon", timeLeft: "۳ روز" },
+  { id: 6, title: "چالش استارتاپ", entryFee: 15, prizePool: 8000, participants: 320, status: "open", type: "classic", timeLeft: "۷ روز" },
 ];
 
 const defaultFilters = {
@@ -105,7 +106,7 @@ export default function AllCompetitionsPage() {
             <p className="text-neutral-500 text-sm mt-1">تمام مسابقات فعال در سطح جهانی</p>
           </div>
           <button
-            className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm text-neutral-300 hover:bg-white/10 transition-all w-full md:w-auto justify-center"
+            className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm text-slate-300 hover:bg-white/10 transition-all w-full md:w-auto justify-center"
             onClick={() => setIsFilterOpen(true)}
           >
             <Filter size={16} /> فیلتر مسابقات
@@ -116,21 +117,23 @@ export default function AllCompetitionsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {filteredCompetitions.map((competition, i) => (
           <FadeIn key={competition.id} delay={i * 0.05}>
-            <MagicCard className="group flex flex-col h-full border-white/5 bg-neutral-900/40 backdrop-blur-sm">
+            <MagicCard className="group flex flex-col h-full border-white/5 bg-neutral-900/40 backdrop-blur-sm transition-transform duration-300 hover:scale-[1.02]">
               <div className="flex justify-between items-start mb-6">
                 <div className="p-3 bg-sky-500/10 rounded-2xl text-sky-400 group-hover:scale-110 transition-transform">
                   <Target size={24} />
                 </div>
                 <div className="text-left">
-                  <p className="text-[10px] text-neutral-500 uppercase font-bold tracking-widest leading-none mb-1">Entry Fee</p>
-                  <p className="text-xl font-black text-white">{competition.entryFee ? formatCurrency(competition.entryFee) : "رایگان"}</p>
+                  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest leading-none mb-1">Entry Fee</p>
+                  <p className="text-xs font-bold text-slate-200 bg-white/5 px-3 py-1 rounded-full inline-flex">
+                    {competition.entryFee ? formatCurrency(competition.entryFee) : "رایگان"}
+                  </p>
                 </div>
               </div>
 
               <div className="space-y-2 mb-8">
                 <h3 className="text-lg font-bold text-white group-hover:text-sky-400 transition-colors">{competition.title}</h3>
                 <div className="flex flex-wrap gap-3">
-                  <div className="flex items-center gap-1 text-[11px] text-neutral-400 bg-white/5 px-2 py-1 rounded-md">
+                  <div className="flex items-center gap-1 text-[11px] text-slate-400 bg-white/5 px-2 py-1 rounded-md">
                     <Users size={12} /> {competition.participants.toLocaleString("fa-IR")} نفر
                   </div>
                   <div className="flex items-center gap-1 text-[11px] text-amber-400 bg-amber-400/10 px-2 py-1 rounded-md">
@@ -145,7 +148,7 @@ export default function AllCompetitionsPage() {
               <div className="mt-auto space-y-4">
                 <div className="flex justify-between items-end bg-black/40 p-4 rounded-2xl border border-white/5">
                   <div>
-                    <p className="text-[9px] text-neutral-500 uppercase font-bold mb-1">Prize Pool</p>
+                    <p className="text-[9px] text-slate-500 uppercase font-bold mb-1">Prize Pool</p>
                     <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">
                       {formatCurrency(competition.prizePool)}
                     </p>
@@ -154,11 +157,22 @@ export default function AllCompetitionsPage() {
                     ورود
                   </button>
                 </div>
+                <div className="flex items-center justify-between text-[11px] text-slate-400 px-1">
+                  <span className="uppercase tracking-widest text-slate-500">Time Left</span>
+                  <span className="text-white font-bold">{competition.timeLeft}</span>
+                </div>
               </div>
             </MagicCard>
           </FadeIn>
         ))}
       </div>
+
+      <button
+        className="md:hidden fixed bottom-20 right-6 z-40 flex items-center gap-2 rounded-full bg-sky-500 text-black px-4 py-3 text-xs font-bold shadow-[0_0_20px_rgba(56,189,248,0.4)]"
+        onClick={() => setIsFilterOpen(true)}
+      >
+        <Filter size={16} /> فیلتر
+      </button>
 
       {isFilterOpen ? (
         <div className="fixed inset-0 z-50 flex justify-end bg-black/50 backdrop-blur-sm" onClick={() => setIsFilterOpen(false)}>
