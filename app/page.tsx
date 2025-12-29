@@ -1,8 +1,8 @@
-import { Header } from '../components/layout/Header';
-import { MobileNav } from '../components/layout/MobileNav';
-import { CenterArea } from '../components/trading/CenterArea';
-import { LeftSidebar } from '../components/trading/LeftSidebar';
-import { RightSidebar } from '../components/trading/RightSidebar';
+import { Header } from "../components/layout/Header";
+import { MobileNav } from "../components/layout/MobileNav";
+import { CenterArea } from "../components/trading/CenterArea";
+import { LeftSidebar } from "../components/trading/LeftSidebar";
+import { RightSidebar } from "../components/trading/RightSidebar";
 
 export default function HomePage() {
   return (

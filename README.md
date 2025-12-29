@@ -1,3 +1,14 @@
+# Trenatest Dashboard
+
+یک داشبورد مدرن با Next.js 14، Tailwind CSS و Framer Motion برای انیمیشن‌های نرم. این پروژه شامل گرید بنیتو، کارت‌های آماری، بخش فعالیت اخیر و Sidebar واکنش‌گرا با حالت جمع‌شونده است.
+
+## امکانات کلیدی
+- انیمیشن‌های ورود تدریجی با کامپوننت `FadeIn`
+- سازگاری با حالت تاریک (Dark Mode)
+- میکرواینترکشن‌های هاور و سایه‌های نرم روی کارت‌ها
+- ساختار ماژولار با App Router و لایه اختصاصی داشبورد
+
+برای مراحل نصب و اجرای پروژه فایل [SETUP.md](./SETUP.md) را ببینید.
 # Trenatest
 
 Refactored trading terminal UI built with Next.js 14 (App Router), TypeScript, and Tailwind CSS.
