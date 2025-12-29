@@ -1,0 +1,57 @@
+.chart {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.header h3 {
+  margin: 0;
+}
+
+.meta {
+  color: var(--color-muted);
+  font-size: var(--font-size-sm);
+}
+
+.body {
+  height: 320px;
+  border-radius: var(--radius-sm);
+  background: radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.08), transparent 35%),
+    radial-gradient(circle at 80% 40%, rgba(139, 92, 246, 0.08), transparent 35%),
+    var(--color-surface-strong);
+  border: 1px dashed var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.footer {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.footer button {
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.footer button:hover {
+  border-color: var(--color-brand);
+}
