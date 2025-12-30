@@ -1,7 +1,4 @@
-"use client";
-
 import * as React from "react";
-import { motion } from "framer-motion";
 
 export const FadeIn = React.memo(function FadeIn({
   children,
@@ -13,14 +10,14 @@ export const FadeIn = React.memo(function FadeIn({
   className?: string;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.2, delay, ease: "easeOut" }}
+    <div
       className={className}
-      style={{ willChange: "opacity, transform" }}
+      style={{
+        animation: `fadeInUp 0.25s ease-out ${delay}s both`,
+        willChange: "opacity, transform",
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 });

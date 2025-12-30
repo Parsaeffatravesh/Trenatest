@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useCallback, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { LayoutDashboard, Trophy, ChevronLeft, ChevronRight, LogOut, User, SwatchBook } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -80,19 +79,15 @@ export const Sidebar = memo(function Sidebar() {
 
       <div className="flex h-24 items-center px-6 border-b border-white/10 bg-gradient-to-r from-white/5 to-transparent">
         <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-sky-400 via-sky-500 to-purple-500 flex-shrink-0 shadow-lg shadow-sky-500/30" />
-        <AnimatePresence>
-          {!isCollapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              className="mr-4 overflow-hidden"
-            >
-              <h1 className="font-bold text-lg text-white whitespace-nowrap">ترید پنل</h1>
-              <p className="text-xs text-slate-400 whitespace-nowrap">Smart Capital Lab</p>
-            </motion.div>
+        <div 
+          className={cn(
+            "mr-4 overflow-hidden transition-all duration-200",
+            isCollapsed ? "opacity-0 w-0" : "opacity-100"
           )}
-        </AnimatePresence>
+        >
+          <h1 className="font-bold text-lg text-white whitespace-nowrap">ترید پنل</h1>
+          <p className="text-xs text-slate-400 whitespace-nowrap">Smart Capital Lab</p>
+        </div>
       </div>
 
       <nav className="flex-1 space-y-2 px-3 mt-6">
