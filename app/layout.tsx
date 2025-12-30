@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/theme-provider";
-import { dana } from "@/app/fonts";
+import { vazirmatn } from "@/app/fonts";
 
 export const metadata: Metadata = {
   title: "Trenatest Dashboard",
@@ -14,9 +14,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" suppressHydrationWarning>
+    <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${dana.variable} min-h-screen font-sans bg-[#020617] text-slate-100 antialiased`}
+        className={`${vazirmatn.variable} min-h-screen font-sans bg-[#020617] text-slate-100 antialiased`}
       >
         <Providers>
           {children}

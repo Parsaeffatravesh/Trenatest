@@ -1,7 +1,10 @@
+"use client";
+
 import dynamic from "next/dynamic";
 import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Activity, DollarSign, TrendingUp, Users, Zap } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 const OverviewChart = dynamic(
   () => import("@/components/dashboard/overview-chart").then((mod) => mod.OverviewChart),
@@ -9,21 +12,23 @@ const OverviewChart = dynamic(
 );
 
 export default function DashboardPage() {
+  const { t, locale } = useI18n();
+  
   const stats = [
-    { title: "Total Equity", value: "$12,450", icon: DollarSign, change: "+12%", color: "text-sky-300", sparkline: true },
-    { title: "سود ماهانه", value: "$3,210", icon: TrendingUp, change: "+5.4%", color: "text-emerald-300" },
-    { title: "رتبه جهانی", value: "#1,284", icon: Activity, change: "+24", color: "text-purple-300" },
-    { title: "مسابقات فعال", value: "۳ مورد", icon: Users, change: "فعال", color: "text-amber-300" },
+    { title: t.dashboard.totalEquity, value: "$12,450", icon: DollarSign, change: "+12%", color: "text-sky-300", sparkline: true },
+    { title: t.dashboard.monthlyProfit, value: "$3,210", icon: TrendingUp, change: "+5.4%", color: "text-emerald-300" },
+    { title: t.dashboard.globalRank, value: "#1,284", icon: Activity, change: "+24", color: "text-purple-300" },
+    { title: t.dashboard.activeCompetitions, value: locale === "fa" ? "۳ مورد" : "3 items", icon: Users, change: t.dashboard.active, color: "text-amber-300" },
   ];
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-10 pb-24">
       <FadeIn>
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
-          <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-white uppercase italic">Command Center</h1>
+          <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-white uppercase italic">{t.dashboard.title}</h1>
           <div className="flex gap-2 w-full sm:w-auto">
             <button className="flex-1 sm:flex-none bg-sky-500 text-black px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-sky-500/20">
-              شروع ترید جدید
+              {t.dashboard.startTrade}
             </button>
           </div>
         </div>
@@ -78,7 +83,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         <div className="lg:col-span-8 h-full">
           <MagicCard className="h-full p-4 sm:p-8 border-white/5">
-            <h3 className="text-lg font-bold text-white mb-6">گزارش عملکرد هفتگی</h3>
+            <h3 className="text-lg font-bold text-white mb-6">{t.dashboard.weeklyReport}</h3>
             <div className="h-[220px] sm:h-[350px]">
               <OverviewChart />
             </div>
@@ -86,15 +91,15 @@ export default function DashboardPage() {
         </div>
 
         <div className="lg:col-span-4 space-y-4">
-          <h3 className="text-lg font-bold text-white px-2 italic uppercase">Upcoming</h3>
+          <h3 className="text-lg font-bold text-white px-2 italic uppercase">{t.dashboard.upcoming}</h3>
           {[1, 2, 3].map((_, i) => (
             <FadeIn key={i} delay={0.5 + i * 0.1}>
               <MagicCard className="p-4 border-white/5 hover:border-sky-500/30 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">🏆</div>
                   <div className="flex-1">
-                    <p className="text-sm font-bold text-white">چالش توربو</p>
-                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Starts in 2h</p>
+                    <p className="text-sm font-bold text-white">{locale === "fa" ? "چالش توربو" : "Turbo Challenge"}</p>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t.dashboard.startsIn} 2h</p>
                   </div>
                   <button className="p-2 text-sky-400 hover:bg-sky-400/10 rounded-lg transition-colors">
                     <Zap size={18} fill="currentColor" />

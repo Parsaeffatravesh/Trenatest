@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
-import { Wallet, ShieldCheck, Copy, ArrowUpRight, Check } from "lucide-react";
+import { Wallet, ShieldCheck, Copy, ArrowUpRight, Check, Globe } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export default function ProfilePage() {
   const [isCopied, setIsCopied] = useState(false);
+  const { t, locale, setLocale, dir } = useI18n();
   const walletAddress = "TYv1G7p9mR4v8qZ...3x8L2mNpR4";
 
   const handleCopy = async () => {
@@ -18,7 +20,11 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pb-20">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 pb-20" dir={dir}>
+      <FadeIn>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-6">{t.profile.title}</h1>
+      </FadeIn>
+      
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
         <div className="lg:col-span-5 space-y-6">
           <FadeIn>
@@ -30,9 +36,9 @@ export default function ProfilePage() {
                     MAIN WALLET
                   </span>
                 </div>
-                <div className="text-right sm:text-left">
+                <div className={locale === "fa" ? "text-right" : "text-left"}>
                   <p className="text-[10px] opacity-70 mb-1 sm:text-xs">Available Balance</p>
-                  <h2 className="text-2xl sm:text-4xl font-black">$۱۲,۴۵۰.۰۰</h2>
+                  <h2 className="text-2xl sm:text-4xl font-black">{locale === "fa" ? "$۱۲,۴۵۰.۰۰" : "$12,450.00"}</h2>
                 </div>
                 <div className="flex items-center gap-3">
                   <p className="text-xs font-mono tracking-[0.18em] sm:text-sm">**** 4290</p>
@@ -51,9 +57,9 @@ export default function ProfilePage() {
                 <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl">
                   <ShieldCheck size={20} />
                 </div>
-                <div className="text-right">
-                  <p className="text-xs sm:text-sm font-bold text-white">احراز هویت</p>
-                  <p className="text-[10px] sm:text-xs text-slate-500">سطح تایید شده ۲</p>
+                <div className={locale === "fa" ? "text-right" : "text-left"}>
+                  <p className="text-xs sm:text-sm font-bold text-white">{locale === "fa" ? "احراز هویت" : "Verification"}</p>
+                  <p className="text-[10px] sm:text-xs text-slate-500">{locale === "fa" ? "سطح تایید شده ۲" : "Level 2 Verified"}</p>
                 </div>
               </div>
               <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-full font-bold uppercase shadow-[0_0_15px_rgba(16,185,129,0.6)] animate-pulse">
@@ -66,19 +72,19 @@ export default function ProfilePage() {
         <div className="lg:col-span-7 space-y-6">
           <FadeIn delay={0.3}>
             <MagicCard className="border-white/10 p-6 sm:p-8">
-              <h3 className="text-lg sm:text-xl font-bold text-white mb-6">اطلاعات کاربری</h3>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-6">{t.profile.personalInfo}</h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <InfoItem label="نام نمایشی" value="MOHAMMAD.PRO" />
-                <InfoItem label="ایمیل" value="mohammad@trade.io" />
-                <InfoItem label="زبان" value="فارسی (IR)" />
-                <InfoItem label="منطقه زمانی" value="UTC +3:30" />
+                <InfoItem label={t.profile.firstName} value="MOHAMMAD" dir={dir} />
+                <InfoItem label={t.profile.email} value="mohammad@trade.io" dir={dir} />
               </div>
 
               <div className="mt-8 pt-6 border-t border-white/5">
-                <p className="text-[10px] text-slate-500 uppercase font-bold mb-3 tracking-widest text-right">آدرس ولت (TRC-20)</p>
+                <p className={`text-[10px] text-slate-500 uppercase font-bold mb-3 tracking-widest ${locale === "fa" ? "text-right" : "text-left"}`}>
+                  {locale === "fa" ? "آدرس ولت (TRC-20)" : "Wallet Address (TRC-20)"}
+                </p>
                 <div className="flex flex-col sm:flex-row items-center gap-3 bg-black/40 p-3 sm:p-4 rounded-2xl border border-white/5 group">
-                  <code className="text-[10px] sm:text-xs text-sky-400 break-all flex-1 text-center sm:text-right">{walletAddress}</code>
+                  <code className={`text-[10px] sm:text-xs text-sky-400 break-all flex-1 text-center ${locale === "fa" ? "sm:text-right" : "sm:text-left"}`}>{walletAddress}</code>
                   <button
                     className={`p-2 rounded-xl transition-all w-full sm:w-auto flex justify-center items-center gap-2 text-xs font-bold ${
                       isCopied ? "bg-emerald-500/20 text-emerald-300 scale-105" : "text-slate-300 hover:text-white bg-white/5"
@@ -86,8 +92,45 @@ export default function ProfilePage() {
                     onClick={handleCopy}
                   >
                     {isCopied ? <Check size={16} /> : <Copy size={16} />}
-                    {isCopied ? "Copied" : "Copy Address"}
+                    {isCopied ? "Copied" : "Copy"}
                   </button>
+                </div>
+              </div>
+            </MagicCard>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <MagicCard className="border-white/10 p-6 sm:p-8">
+              <div className="flex items-center gap-3 mb-6">
+                <Globe size={20} className="text-sky-400" />
+                <h3 className="text-lg sm:text-xl font-bold text-white">{t.profile.settings}</h3>
+              </div>
+
+              <div className="space-y-4">
+                <div className={`flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/10 ${locale === "fa" ? "flex-row-reverse" : ""}`}>
+                  <span className="text-sm font-medium text-white">{t.profile.language}</span>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setLocale("fa")}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                        locale === "fa"
+                          ? "bg-sky-500 text-black shadow-lg shadow-sky-500/30"
+                          : "bg-white/10 text-slate-300 hover:bg-white/20"
+                      }`}
+                    >
+                      {t.profile.persian}
+                    </button>
+                    <button
+                      onClick={() => setLocale("en")}
+                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                        locale === "en"
+                          ? "bg-sky-500 text-black shadow-lg shadow-sky-500/30"
+                          : "bg-white/10 text-slate-300 hover:bg-white/20"
+                      }`}
+                    >
+                      {t.profile.english}
+                    </button>
+                  </div>
                 </div>
               </div>
             </MagicCard>
@@ -98,9 +141,9 @@ export default function ProfilePage() {
   );
 }
 
-function InfoItem({ label, value }: { label: string; value: string }) {
+function InfoItem({ label, value, dir }: { label: string; value: string; dir: "rtl" | "ltr" }) {
   return (
-    <div className="space-y-1.5 text-right">
+    <div className={`space-y-1.5 ${dir === "rtl" ? "text-right" : "text-left"}`}>
       <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{label}</p>
       <div className="bg-white/5 px-4 py-3 rounded-xl border border-white/5 text-sm text-neutral-200">
         {value}
