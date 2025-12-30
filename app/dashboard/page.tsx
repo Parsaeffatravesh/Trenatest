@@ -5,6 +5,7 @@ import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Activity, DollarSign, TrendingUp, Users, Zap } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { formatNumberLatin } from "@/lib/format";
 
 const OverviewChart = dynamic(
   () => import("@/components/dashboard/overview-chart").then((mod) => mod.OverviewChart),
@@ -12,13 +13,13 @@ const OverviewChart = dynamic(
 );
 
 export default function DashboardPage() {
-  const { t, locale } = useI18n();
+  const { t, locale, t_with } = useI18n();
   
   const stats = [
-    { title: t.dashboard.totalEquity, value: "$12,450", icon: DollarSign, change: "+12%", color: "text-sky-300", sparkline: true },
-    { title: t.dashboard.monthlyProfit, value: "$3,210", icon: TrendingUp, change: "+5.4%", color: "text-emerald-300" },
+    { title: t_with("dashboard.totalEquity", { equity: formatNumberLatin(12450) }), value: "$12,450", icon: DollarSign, change: "+12%", color: "text-sky-300", sparkline: true },
+    { title: t_with("dashboard.monthlyProfit", { profit: formatNumberLatin(3210) }), value: "$3,210", icon: TrendingUp, change: "+5.4%", color: "text-emerald-300" },
     { title: t.dashboard.globalRank, value: "#1,284", icon: Activity, change: "+24", color: "text-purple-300" },
-    { title: t.dashboard.activeCompetitions, value: locale === "fa" ? "۳ مورد" : "3 items", icon: Users, change: t.dashboard.active, color: "text-amber-300" },
+    { title: t_with("dashboard.items", { count: 3 }), value: locale === "fa" ? "۳" : "3", icon: Users, change: t.dashboard.active, color: "text-amber-300" },
   ];
 
   return (
@@ -99,7 +100,7 @@ export default function DashboardPage() {
                   <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">🏆</div>
                   <div className="flex-1">
                     <p className="text-sm font-bold text-white">{locale === "fa" ? "چالش توربو" : "Turbo Challenge"}</p>
-                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t.dashboard.startsIn} 2h</p>
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">{t_with("dashboard.startsIn", { time: "2h" })}</p>
                   </div>
                   <button className="p-2 text-sky-400 hover:bg-sky-400/10 rounded-lg transition-colors">
                     <Zap size={18} fill="currentColor" />

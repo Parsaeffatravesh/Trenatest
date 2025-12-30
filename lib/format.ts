@@ -1,8 +1,14 @@
-import type { Language } from '../types/domain';
+import type { Locale } from './i18n';
+
+type Language = 'fa' | 'en';
 
 export function formatNumber(num: number, lang: Language, decimals = 2) {
   const locale = lang === 'fa' ? 'fa-IR' : 'en-US';
   return new Intl.NumberFormat(locale, { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(num);
+}
+
+export function formatNumberLatin(num: number, decimals = 2) {
+  return new Intl.NumberFormat('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(num);
 }
 
 export function formatPrice(num: number, lang: Language) {
