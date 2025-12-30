@@ -1,18 +1,8 @@
-import localFont from "next/font/local";
+import { Vazirmatn } from "next/font/google";
 
-export const vazirmatn = localFont({
-  src: [
-    {
-      path: "./fonts/Vazirmatn-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "./fonts/Vazirmatn-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+export const vazirmatn = Vazirmatn({
+  subsets: ["latin", "arabic"],
+  weight: ["400", "700"],
   variable: "--font-vazirmatn",
   display: "swap",
 });

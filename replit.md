@@ -13,7 +13,7 @@ Preferred communication style: Simple, everyday language.
 - **Bilingual Support**: Added complete i18n system with Persian/English translations
 - **Language Switcher**: Profile page includes toggle to switch between Persian and English
 - **RTL/LTR Direction**: Layout direction dynamically adjusts based on selected language
-- **Font Update**: Migrated from Dana font to Vazirmatn using next/font for better reliability
+- **Font Update**: Using Vazirmatn from Google Fonts (next/font/google) - English numerals by default
 - **Performance Optimizations**: CSS animations instead of framer-motion, removed backdrop-blur
 - **Dark-Only Theme**: Removed light theme to prevent hydration issues
 
