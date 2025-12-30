@@ -58,7 +58,7 @@ export const BottomNav = memo(function BottomNav() {
 
   return (
     <nav
-      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0b1224]/80 backdrop-blur-xl border-t border-white/10 px-6 py-3"
+      className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0b1224]/98 border-t border-white/10 px-6 py-3"
       style={{ fontFamily: "var(--font-dana)" }}
     >
       <div className="flex justify-between items-center max-w-md mx-auto">

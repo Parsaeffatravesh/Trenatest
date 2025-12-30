@@ -64,7 +64,7 @@ export const Sidebar = memo(function Sidebar() {
   return (
     <div
       className={cn(
-        "hidden lg:flex relative h-screen bg-[#0b1224]/70 border-l border-white/10 flex-col z-50 shadow-[0_0_40px_rgba(2,6,23,0.6)] backdrop-blur transition-[width] duration-300 ease-out",
+        "hidden lg:flex relative h-screen bg-[#0b1224]/95 border-l border-white/10 flex-col z-50 shadow-[0_0_30px_rgba(2,6,23,0.5)] transition-[width] duration-300 ease-out",
         isCollapsed ? "w-20" : "w-[260px]"
       )}
       dir="rtl"

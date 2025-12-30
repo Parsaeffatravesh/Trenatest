@@ -62,9 +62,8 @@ a {
 
 .magic-card-glow {
   background: 
-    radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.15), transparent 40%),
-    radial-gradient(300px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.1), transparent 45%);
-  will-change: background;
+    radial-gradient(280px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.12), transparent 40%),
+    radial-gradient(200px circle at var(--mouse-x) var(--mouse-y), rgba(168, 85, 247, 0.08), transparent 45%);
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -118,18 +117,17 @@ a {
 }
 
 .glass-card {
-  background: linear-gradient(135deg, rgba(20, 25, 38, 0.95), rgba(15, 20, 32, 0.98));
+  background: linear-gradient(135deg, rgba(20, 25, 38, 0.98), rgba(15, 20, 32, 0.99));
   border: 1px solid rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
 }
 
 .glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-card-hover:hover {
   border-color: rgba(16, 185, 129, 0.3);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.1);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.08);
   transform: translateY(-2px);
 }
 
@@ -170,4 +168,30 @@ a {
 
 .animate-page-in {
   animation: pageIn 0.15s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .animate-page-in,
+  .fade-in,
+  .slide-up,
+  .skeleton,
+  .gradient-bar {
+    animation: none !important;
+  }
+  
+  .glass-card-hover:hover {
+    transform: none;
+  }
+  
+  .magic-card-glow {
+    display: none;
+  }
 }
