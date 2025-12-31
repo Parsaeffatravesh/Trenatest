@@ -1,6 +1,8 @@
 "use client";
 
 import { CSSProperties } from "react";
+import Lottie from "lottie-react";
+import loadingData from "@/public/loading-icon.json";
 
 interface LottieLoaderProps {
   size?: number;
@@ -9,18 +11,14 @@ interface LottieLoaderProps {
 }
 
 export function LottieLoader({ size = 80, className = "", style }: LottieLoaderProps) {
-  const scale = size / 80;
-  
   return (
     <div className={`flex items-center justify-center ${className}`} style={style}>
-      <div className="loading-container" style={{ transform: `scale(${scale})` }}>
-        <div className="loading-bars">
-          <div className="loading-bar" />
-          <div className="loading-bar" />
-          <div className="loading-bar" />
-          <div className="loading-bar" />
-        </div>
-        <div className="loading-glow" />
+      <div style={{ width: size, height: size }}>
+        <Lottie 
+          animationData={loadingData} 
+          loop={true} 
+          autoplay={true}
+        />
       </div>
     </div>
   );

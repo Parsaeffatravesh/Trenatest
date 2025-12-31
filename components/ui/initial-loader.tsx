@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { LottieLoader } from "./lottie-loader";
 
 export function InitialLoader({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +16,7 @@ export function InitialLoader({ children }: { children: React.ReactNode }) {
       });
     };
 
-    const timer = setTimeout(checkReady, 150);
+    const timer = setTimeout(checkReady, 500); // Slightly longer to show the new animation
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,15 +27,7 @@ export function InitialLoader({ children }: { children: React.ReactNode }) {
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#020617] transition-opacity duration-400"
           style={{ opacity: isLoading ? 1 : 0 }}
         >
-          <div className="loading-container">
-            <div className="loading-bars">
-              <div className="loading-bar" />
-              <div className="loading-bar" />
-              <div className="loading-bar" />
-              <div className="loading-bar" />
-            </div>
-            <div className="loading-glow" />
-          </div>
+          <LottieLoader size={120} />
         </div>
       )}
       <div ref={contentRef} style={{ opacity: isLoading ? 0 : 1, transition: "opacity 0.3s ease-out" }}>
