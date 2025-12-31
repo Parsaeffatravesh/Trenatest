@@ -169,6 +169,33 @@ a {
   }
 }
 
+@keyframes barGrow1 {
+  0%, 100% { height: 20px; }
+  50% { height: 40px; }
+}
+
+@keyframes barGrow2 {
+  0%, 100% { height: 30px; }
+  50% { height: 55px; }
+}
+
+@keyframes barGrow3 {
+  0%, 100% { height: 25px; }
+  50% { height: 60px; }
+}
+
+.animate-bar-1 {
+  animation: barGrow1 0.8s ease-in-out infinite;
+}
+
+.animate-bar-2 {
+  animation: barGrow2 0.8s ease-in-out infinite 0.1s;
+}
+
+.animate-bar-3 {
+  animation: barGrow3 0.8s ease-in-out infinite 0.2s;
+}
+
 .animate-page-in {
   animation: pageIn 0.08s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
