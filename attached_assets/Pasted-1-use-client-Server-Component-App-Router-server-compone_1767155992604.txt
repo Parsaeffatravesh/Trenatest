@@ -1,0 +1,168 @@
+1) حداقل‌سازی use client — تبدیل موارد به Server Component
+
+شرح: در App Router جدید، server components خروجی HTML را بدون جاوااسکریپت می‌دهند و فقط اجزای تعاملی را هیدراته می‌کنند. در صفحاتِ فعلی، خیلی از فایل‌ها use client دارند (مثلاً کل صفحهٔ مسابقات) در حالی که بخش‌هایی از آن می‌توانند Server Component باشند.
+
+چکار کن:
+
+صفحه‌ای مثل app/dashboard/competitions/page.tsx را به دو بخش تقسیم کن:
+
+Server component (بدون use client) که محتوای ایستا یا دادهٔ اولیه را رندر می‌کند.
+
+Client component کوچک (مثلاً CompetitionsFiltersClient و CompetitionsListClient) که فقط منطق state و تعامل را دارد و use client دارد.
+
+نمونه الگو:
+
+// app/dashboard/competitions/page.tsx  (Server)
+import CompetitionsListClient from '@/components/competitions/competitions-list-client';
+
+export default function AllCompetitionsPage() {
+  const competitions = /* میتوانی داده سرور را اینجا بخوانی یا از mock بگیری */;
+  return (
+    <div>
+      <h1>Global Arena</h1>
+      <CompetitionsListClient initialData={competitions} />
+    </div>
+  );
+}
+
+// components/competitions/competitions-list-client.tsx  (Client)
+"use client";
+import React from "react";
+export default function CompetitionsListClient({ initialData }) {
+  const [items, setItems] = React.useState(initialData);
+  // فیلترها و تعاملات اینجا
+  return <div>{/* UI تعاملی */}</div>;
+}
+
+
+اثر: حجم JS اولیه کاهش می‌یابد و فقط کامپوننت‌هایی که نیاز دارند هیدراته می‌شوند.
+
+2) پیش‌بارگذاریِ همِ کدِ صفحه و همِ داده (Code + Data prefetch)
+
+شرح: تو الان router.prefetch(href) رو در سایدبار موقع هاور صدا می‌زنی — خیلی خوب است ولی تنها کد را پیش‌بارگذاری می‌کند. برای «جابجایی در لحظه» باید دادهٔ آن صفحه (API) را هم پیش‌بارگذاری کنی (مثلاً با React Query/TanStack Query یا SWR).
+
+چکار کن:
+
+اضافه کن @tanstack/react-query و یک QueryClient در Providers.
+
+هنگام onMouseEnter یا هاور لینک، علاوه بر router.prefetch(href)، queryClient.prefetchQuery(['pageData', href], fetcher) را هم بزن تا داده آماده بشود.
+
+مثال (الگویی):
+
+// Sidebar: در handlePrefetch
+const handlePrefetch = useCallback((href: string) => {
+  router.prefetch(href); // کد را پیش‌بارگذاری می‌کند
+  queryClient.prefetchQuery(['pageData', href], () => fetch(`/api${href}`).then(r => r.json()));
+}, [router, queryClient]);
+
+
+اثر: هنگام کلیک، هم کد صفحه و هم داده آماده‌اند و صفحه تقریباً آنی بار می‌شود.
+
+3) کاهش باندل framer-motion و سایر کتابخانه‌های سنگین
+
+شرح: framer-motion عالی است ولی سنگین است. در پروژه تو در چند کامپوننت کلاینتی استفاده شده (سایدبار، page-transition). روش بهتر: یا آن را داینامیک وارد کن (تا فقط زمانی که نیاز هست لود شود) یا برای میکرواینترکشن‌های ساده از CSS/@motionone (سبکتر) استفاده کن.
+
+چه کار کن:
+
+به‌جای import { motion } from "framer-motion" در فایل‌هایی که باید سبک باشند، از next/dynamic استفاده کن تا framer-motion جدا بار شود:
+
+// dynamic-motion.tsx
+import dynamic from "next/dynamic";
+export const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
+
+
+سپس در page-transition و sidebar از MotionDiv یا داینامیکی که فقط زمانی بار شود استفاده کن.
+
+یا جایگزین: اگر انیمیشن خیلی ساده است (فِید/تِرانزیشن کوتاه)، تنها با CSS و transition/@keyframes پیاده‌سازی کن (که وزن صفر JS دارد).
+
+اثر: کاهش چشمگیر حجم جاوااسکریپت اولیه و زمان هیدراسیون.
+
+(در کدت page-transition.tsx و sidebar.tsx فعلاً framer-motion وارد شده؛ با دینامیک کردن یا جایگزینی CSS می‌توانی بهبود بدی). 
+
+page-transition +1
+
+4) بهینه‌سازی افکت‌های ماوس و انیمیشن‌های پرهزینه
+
+شرح: MagicCard برای هر حرکت ماوس از RAF استفاده می‌کند و مقدار CSS متغیر می‌گذارد. وقتی صدها کارت در صفحه هست، حتی با RAF debounce بار CPU زیاد می‌شود. راه‌حل: محدود کردن افکت به نمایشی (مثلاً فقط اولین N کارت یا فقط در حالت hover) یا خاموش کردن در موبایل.
+
+چه کار کن:
+
+فقط افکت را برای کارت‌هایی که در viewport هستند یا برای صفحه‌نمایش دسکتاپ فعال کن.
+
+یا جایگزین با افکت CSS سبک + transform: translate3d() که GPU-accelerated است.
+
+نمونه بهینه‌سازی (خاموش کردن در موبایل):
+
+const handleMouseMove = React.useCallback((e) => {
+  if (window.innerWidth < 768) return; // موبایل — غیرفعال
+  // ... بقیه با RAF
+}, []);
+
+
+(کد فعلی MagicCard از RAF استفاده می‌کند؛ این جا را می‌توان بهینه کرد.) 
+
+magic-card
+
+5) استفاده از <Link> و پیش‌بارگذاری خودکار Next.js برای مسیرها
+
+شرح: در MenuItem تو router.push و دَرونِ motion.button استفاده کرده‌ای. <Link> از Next.js خودش prefetch را انجام می‌دهد برای لینک‌هایی که در viewport هستند. همچنین <Link> نتایج بهینه‌تری برای navigation ارائه می‌دهد.
+
+چه کار کن:
+
+به جای router.push از <Link href={...} prefetch> استفاده کن. اگر انیمیشن لازم داری می‌توانی motion را دور Link بپیچی.
+
+نمونه:
+
+import Link from "next/link";
+
+<Link href={item.href} prefetch={true} className="...">
+  <item.icon />
+  <span>{item.name}</span>
+</Link>
+
+
+اثر: ناوبری کلاینتی با پیش‌بارگذاری بهتر و مدیریت خودکار Next برای prefetch.
+
+(تو الان router.prefetch رو در handler داری؛ ترکیب router.prefetch + Link بهترین است.) 
+
+sidebar
+
+6) Bundle analysis و اندازه‌گیری دقیق
+
+شرح: قبل از هر بهینه‌سازی و بعد از آن اندازه‌گیری کن. از @next/bundle-analyzer و ابزارهای وب (Lighthouse, WebPageTest) استفاده کن.
+
+چه کار کن:
+
+نصب و کانفیگ:
+
+npm i -D @next/bundle-analyzer
+
+
+next.config.js:
+
+const withBundleAnalyzer = require('@next/bundle-analyzer')({ enabled: process.env.ANALYZE === 'true' });
+module.exports = withBundleAnalyzer({});
+
+
+اجرا:
+
+ANALYZE=true npm run build
+
+
+با خروجی ببین کدام پِکِیج‌ها/چانک‌ها بزر‌گ‌اند و آنها را هدف بگیر.
+
+اثر: مشخص می‌کنی دقیقاً چه چیزی وزن را بالا برده و کجا باید درخت‌تراش (tree-shake) یا دینامیک‌سازی کنی.
+
+7) بهینه‌سازی کش و CDN / HTTP cache
+
+برای منابع استاتیک (تصاویر، فونت‌ها و فایل‌های JS/CSS) از CDN و header مناسب (Cache-Control) استفاده کن.
+
+در Next.js، صفحات استاتیک و تصاویر معمولاً خودکار CDN می‌گیرند اما مطمئن شو Cache-Control مناسب on your hosting (Vercel/Netlify/Cloudflare) تنظیم شده است.
+
+اثر: تکرار بازدیدها خیلی سریع‌تر خواهند شد.
+
+8) تست و پروفایلینگ رندرها
+
+استفاده از React Profiler و Performance tab مرورگر برای پیدا کردن کامپوننت‌هایی که بیشترین رندر را می‌گیرند.
+
+استفاده از why-did-you-render در توسعه برای پیدا کردن رندرهای غیرضروری.
