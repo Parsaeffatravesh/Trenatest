@@ -5,10 +5,11 @@ import { MagicCard } from "@/components/ui/magic-card";
 import { FadeIn } from "@/components/ui/fade-in";
 import { Activity, DollarSign, TrendingUp, Users, Zap } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import { LottieLoader } from "@/components/ui/lottie-loader";
 
 const OverviewChart = dynamic(
   () => import("@/components/dashboard/overview-chart").then((mod) => mod.OverviewChart),
-  { ssr: false, loading: () => <div className="h-full w-full animate-pulse bg-white/5 rounded-xl" /> }
+  { ssr: false, loading: () => <div className="h-full w-full flex items-center justify-center"><LottieLoader size={60} /></div> }
 );
 
 export default function DashboardPage() {
