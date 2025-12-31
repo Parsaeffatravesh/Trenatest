@@ -1,19 +1,8 @@
-import localFont from "next/font/local";
+import { Vazirmatn } from "next/font/google";
 
-export const dana = localFont({
-  src: [
-    {
-      path: "../public/fonts/Dana-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Dana-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+export const dana = Vazirmatn({
+  subsets: ["latin", "arabic"],
+  weight: ["400", "500", "700"],
   variable: "--font-dana",
   display: "swap",
-  adjustFontFallback: false,
 });
