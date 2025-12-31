@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Smoothness Optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  backface-visibility: hidden;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.smooth-transition {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity, background-color;
+}
+
+.sidebar-smooth {
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: width, transform;
+}
+
+.pb-safe-offset {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
 
 :root {
   color-scheme: dark;
