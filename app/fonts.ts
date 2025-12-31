@@ -15,4 +15,5 @@ export const dana = localFont({
   ],
   variable: "--font-dana",
   display: "swap",
+  adjustFontFallback: false,
 });
