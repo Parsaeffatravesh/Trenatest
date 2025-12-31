@@ -22,9 +22,9 @@ const MenuItem = memo(function MenuItem({
     <Link
       href={item.href}
       className={cn(
-        "w-full flex items-center p-3 rounded-lg transition-all duration-200 group relative overflow-hidden",
+        "w-full flex items-center p-3 rounded-xl transition-all duration-200 group relative overflow-hidden",
         isActive
-          ? "bg-sky-500/10 text-sky-300"
+          ? "bg-gradient-to-l from-sky-500/20 to-sky-500/5 text-sky-300 border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.15)]"
           : "text-slate-400 hover:bg-white/5 hover:text-sky-300 active:scale-[0.98]"
       )}
     >
@@ -38,9 +38,6 @@ const MenuItem = memo(function MenuItem({
       >
         {item.name}
       </span>
-      {!isCollapsed && isActive && (
-        <div className="absolute inset-0 bg-sky-500/10 rounded-lg" />
-      )}
     </Link>
   );
 });
