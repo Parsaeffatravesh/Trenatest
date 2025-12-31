@@ -11,6 +11,7 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes (December 2025)
 
 ### Performance Optimizations (Latest)
+- **Custom Loading Animation**: Bar chart Lottie animation with CSS fallback for all loading states
 - **Server Components**: Competitions page converted to Server Component with client-only filter logic separated
 - **No framer-motion in sidebar**: Replaced with CSS transitions for lighter bundle
 - **MagicCard mobile optimization**: Mouse effects disabled on mobile (< 768px)
