@@ -10,11 +10,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (December 2025)
 
-- **Bilingual Support**: Added complete i18n system with Persian/English translations
-- **Language Switcher**: Profile page includes toggle to switch between Persian and English
-- **RTL/LTR Direction**: Layout direction dynamically adjusts based on selected language
-- **Font Update**: Using Vazirmatn from Google Fonts (next/font/google) - English numerals by default
-- **Performance Optimizations**: CSS animations instead of framer-motion, removed backdrop-blur
+- **Top Navbar**: Added navbar with wallet balance display (click to deposit/withdraw) and notifications
+- **Notifications Panel**: Badge with unread count, dropdown panel, "mark all read" button
+- **Wallet Modal**: Deposit/withdraw functionality with network selection
+- **Sharper UI**: Reduced border-radius from 32px to xl for cleaner look
+- **Space Optimization**: Better use of screen space with reduced padding/gaps
+- **Bilingual Support**: Complete i18n system with Persian/English translations
+- **Language Switcher**: Profile page toggle between Persian and English
+- **RTL/LTR Direction**: Layout direction dynamically adjusts based on language
+- **Font**: Vazirmatn from Google Fonts - English numerals by default
 - **Dark-Only Theme**: Removed light theme to prevent hydration issues
 
 ## System Architecture
