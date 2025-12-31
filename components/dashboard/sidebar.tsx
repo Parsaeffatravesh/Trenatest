@@ -76,7 +76,7 @@ export const Sidebar = memo(function Sidebar() {
   return (
     <div
       className={cn(
-        "hidden lg:flex sticky top-0 h-screen bg-[#0b1224]/95 flex-col z-50 shadow-[0_0_30px_rgba(2,6,23,0.5)] sidebar-smooth font-dana",
+        "hidden lg:flex sticky top-0 h-screen bg-[#0b1224]/95 flex-col z-50 shadow-[0_0_30px_rgba(2,6,23,0.5)] transition-[width] duration-300 ease-out font-dana",
         isRtl ? "border-l border-white/10" : "border-r border-white/10",
         isCollapsed ? "w-20" : "w-[260px]"
       )}
