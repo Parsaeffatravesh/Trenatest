@@ -14,9 +14,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="relative flex min-h-screen bg-[#020617]" dir={dir}>
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.12),_transparent_40%),_radial-gradient(circle_at_bottom,_rgba(168,85,247,0.12),_transparent_38%)]" />
         <Sidebar />
-        <div className="relative z-10 flex-1 flex flex-col">
+        <div className="relative z-10 flex-1 flex flex-col h-screen overflow-hidden">
           <TopNavbar />
-          <main className="flex-1 scroll-smooth p-3 md:p-4 lg:p-6 pb-24 lg:pb-6">
+          <main className="flex-1 overflow-y-auto custom-scrollbar p-3 md:p-4 lg:p-6 pb-24 lg:pb-6">
             {children}
           </main>
         </div>
