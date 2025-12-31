@@ -27,8 +27,9 @@ const MenuItem = memo(function MenuItem({
       href={item.href}
       prefetch={true}
       onClick={onClick}
+      style={{ fontFamily: 'var(--font-dana), sans-serif' }}
       className={cn(
-        "w-full flex items-center p-3 rounded-xl transition-all duration-300 group relative overflow-hidden",
+        "w-full flex items-center p-3 rounded-xl transition-all duration-300 group relative overflow-hidden font-dana",
         isActive
           ? cn(
               "bg-gradient-to-l from-sky-500/20 to-sky-500/5 text-sky-300 border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.15)]",
@@ -39,8 +40,9 @@ const MenuItem = memo(function MenuItem({
     >
       <item.icon size={22} className="flex-shrink-0 z-10" />
       <span 
+        style={{ fontFamily: 'var(--font-dana), sans-serif' }}
         className={cn(
-          "font-medium text-sm whitespace-nowrap z-10 transition-opacity duration-150",
+          "font-medium text-sm whitespace-nowrap z-10 transition-opacity duration-150 font-dana",
           isRtl ? "mr-4" : "ml-4",
           isCollapsed ? "opacity-0 w-0" : "opacity-100"
         )}
