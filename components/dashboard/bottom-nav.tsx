@@ -1,70 +1,45 @@
 "use client";
 
-import { memo, useCallback, useState, useEffect } from "react";
+import { memo } from "react";
 import { LayoutDashboard, Trophy, SwatchBook, User } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
-import { motion } from "framer-motion";
 
 const NavItem = memo(function NavItem({ 
   item, 
-  isActive, 
-  onHover,
-  onNavigate
+  isActive
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
-  isActive: boolean; 
-  onHover: (href: string) => void;
-  onNavigate: (href: string) => void;
+  isActive: boolean;
 }) {
-  const [isClicking, setIsClicking] = useState(false);
-
-  useEffect(() => {
-    if (!isActive) {
-      setIsClicking(false);
-    }
-  }, [isActive]);
-
-  const handleClick = useCallback(() => {
-    setIsClicking(true);
-    onNavigate(item.href);
-  }, [item.href, onNavigate]);
-
   return (
-    <motion.button
-      onClick={handleClick}
-      onMouseEnter={() => onHover(item.href)}
-      onTouchStart={() => onHover(item.href)}
-      whileTap={{ scale: 0.92 }}
-      className="relative flex flex-col items-center gap-1 cursor-pointer"
+    <Link
+      href={item.href}
+      prefetch={true}
+      className="relative flex flex-col items-center gap-1 active:scale-95 transition-transform"
     >
-      <motion.div
-        animate={isClicking ? { scale: [1, 1.1, 1] } : {}}
-        transition={{ duration: 0.3 }}
+      <div
         className={cn(
-          "p-2 rounded-xl transition-all duration-150",
-          isActive || isClicking ? "text-sky-300 bg-sky-500/10" : "text-slate-400"
+          "p-2 rounded-xl transition-colors duration-150",
+          isActive ? "text-sky-300 bg-sky-500/10" : "text-slate-400"
         )}
       >
         <item.icon size={20} />
-      </motion.div>
+      </div>
       <span className={cn("text-[10px] font-medium", isActive ? "text-sky-300" : "text-slate-400")}>
         {item.name}
       </span>
       {isActive && (
-        <motion.div 
-          layoutId="activeIndicator"
-          className="absolute -top-3 w-8 h-1 bg-sky-400 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.7)]"
-        />
+        <div className="absolute -top-3 w-8 h-1 bg-sky-400 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
       )}
-    </motion.button>
+    </Link>
   );
 });
 
 export const BottomNav = memo(function BottomNav() {
   const pathname = usePathname();
-  const router = useRouter();
   const { t } = useI18n();
 
   const navItems = [
@@ -73,14 +48,6 @@ export const BottomNav = memo(function BottomNav() {
     { name: t.nav.myCompetitions, icon: Trophy, href: "/dashboard/my-competitions" },
     { name: t.nav.profile, icon: User, href: "/dashboard/profile" },
   ];
-
-  const handlePrefetch = useCallback((href: string) => {
-    router.prefetch(href);
-  }, [router]);
-
-  const handleNavigate = useCallback((href: string) => {
-    router.push(href);
-  }, [router]);
 
   return (
     <nav
@@ -94,8 +61,6 @@ export const BottomNav = memo(function BottomNav() {
               key={item.href}
               item={item}
               isActive={isActive}
-              onHover={handlePrefetch}
-              onNavigate={handleNavigate}
             />
           );
         })}

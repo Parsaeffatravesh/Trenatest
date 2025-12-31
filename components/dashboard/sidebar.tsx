@@ -21,6 +21,7 @@ const MenuItem = memo(function MenuItem({
   return (
     <Link
       href={item.href}
+      prefetch={true}
       className={cn(
         "w-full flex items-center p-3 rounded-xl transition-all duration-200 group relative overflow-hidden",
         isActive
