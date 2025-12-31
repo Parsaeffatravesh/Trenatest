@@ -49,6 +49,12 @@ export function TopNavbar() {
     setNotifications(notifications.map((n) => ({ ...n, read: true })));
   };
 
+  const markAsRead = (id: string) => {
+    setNotifications(notifications.map((n) => 
+      n.id === id ? { ...n, read: true } : n
+    ));
+  };
+
   return (
     <>
       <nav className="sticky top-0 z-40 flex items-center justify-between h-14 px-4 lg:px-6 bg-[#0b1224]/95 border-b border-white/10 backdrop-blur-sm" dir={dir}>
@@ -100,9 +106,10 @@ export function TopNavbar() {
                     notifications.map((notif) => (
                       <div
                         key={notif.id}
+                        onClick={() => !notif.read && markAsRead(notif.id)}
                         className={cn(
                           "p-4 border-b border-white/5 hover:bg-white/5 transition-colors",
-                          !notif.read && "bg-sky-500/5"
+                          !notif.read && "bg-sky-500/5 cursor-pointer"
                         )}
                       >
                         <div className="flex items-start gap-3">
