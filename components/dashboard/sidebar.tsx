@@ -35,7 +35,7 @@ const MenuItem = memo(function MenuItem({
       onMouseEnter={() => onHover(item.href)}
       whileTap={{ scale: 0.98 }}
       className={cn(
-        "w-full flex items-center p-3 rounded-2xl transition-colors group relative overflow-hidden cursor-pointer",
+        "w-full flex items-center p-3 rounded-lg transition-colors group relative overflow-hidden cursor-pointer",
         isActive || isClicking
           ? "bg-sky-500/10 text-sky-300"
           : "text-slate-400 hover:bg-white/5 hover:text-sky-300"
@@ -59,7 +59,7 @@ const MenuItem = memo(function MenuItem({
       {!isCollapsed && isActive && (
         <motion.div 
           layoutId="activeMenuItem"
-          className="absolute inset-0 bg-sky-500/10 rounded-2xl"
+          className="absolute inset-0 bg-sky-500/10 rounded-lg"
         />
       )}
     </motion.button>
@@ -145,7 +145,7 @@ export const Sidebar = memo(function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-white/10">
-        <button className="flex w-full items-center justify-center p-3 rounded-2xl bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition-all">
+        <button className="flex w-full items-center justify-center p-3 rounded-lg bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition-all">
           <LogOut size={20} />
           <span className={cn(
             "text-sm font-medium transition-opacity duration-150",

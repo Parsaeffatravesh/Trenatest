@@ -11,7 +11,7 @@ export default function MyCompetitionsPage() {
             <h1 className="text-3xl sm:text-4xl font-black tracking-tighter text-white">ACTIVE ARENA</h1>
             <p className="text-slate-500 text-sm">وضعیت چالش‌های فعال شما</p>
           </div>
-          <div className="bg-white/5 px-4 py-2 rounded-2xl border border-white/10">
+          <div className="bg-white/5 px-4 py-2 rounded-lg border border-white/10">
             <p className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Global Rank</p>
             <p className="text-xl font-black text-sky-300">#1,284</p>
           </div>
@@ -60,7 +60,7 @@ export default function MyCompetitionsPage() {
                   </div>
                 </div>
 
-                <button className="w-full lg:w-auto px-10 py-4 bg-white text-black font-black rounded-2xl hover:scale-105 transition-transform text-sm sm:text-base">
+                <button className="w-full lg:w-auto px-10 py-4 bg-white text-black font-black rounded-lg hover:scale-105 transition-transform text-sm sm:text-base">
                   ENTER TERMINAL
                 </button>
               </div>
@@ -74,7 +74,7 @@ export default function MyCompetitionsPage() {
 
 function StatBox({ label, value, color }: { label: string; value: string; color: string }) {
   return (
-    <div className="bg-white/5 p-3 rounded-xl border border-white/5 flex flex-col items-center lg:items-start">
+    <div className="bg-white/5 p-3 rounded-lg border border-white/5 flex flex-col items-center lg:items-start">
       <p className="text-[9px] sm:text-[10px] text-slate-500 uppercase font-bold mb-1">{label}</p>
       <p className={`text-sm sm:text-lg font-bold ${color}`}>{value}</p>
     </div>

@@ -73,7 +73,7 @@ export default function AllCompetitionsPage() {
           {/* موبایل: دکمهٔ فیلتر */}
           <button
             onClick={() => setIsFilterOpen(true)}
-            className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-sm text-neutral-300 hover:bg-white/10 transition-all w-full md:w-auto justify-center md:hidden"
+            className="flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-2 rounded-lg text-sm text-neutral-300 hover:bg-white/10 transition-all w-full md:w-auto justify-center md:hidden"
           >
             <Filter size={16} /> فیلتر مسابقات
           </button>
@@ -81,7 +81,7 @@ export default function AllCompetitionsPage() {
       </FadeIn>
 
       {/* دسکتاپ: نوار فیلتر (md+) */}
-      <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-4 bg-black/30 border border-white/5 rounded-2xl p-4">
+      <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-4 bg-black/30 border border-white/5 rounded-lg p-4">
         <FilterSelect
           label="وضعیت"
           value={statusFilter}
@@ -141,7 +141,7 @@ export default function AllCompetitionsPage() {
 
       {/* لیست یا Empty state */}
       {filteredCompetitions.length === 0 ? (
-        <div className="rounded-2xl border border-white/5 bg-white/5 p-10 text-center text-sm text-neutral-400">
+        <div className="rounded-lg border border-white/5 bg-white/5 p-10 text-center text-sm text-neutral-400">
           مسابقه‌ای با فیلترهای انتخاب‌شده پیدا نشد.
         </div>
       ) : (
@@ -150,7 +150,7 @@ export default function AllCompetitionsPage() {
             <FadeIn key={competition.id} delay={index * 0.05}>
               <MagicCard className="group flex flex-col h-full border-white/5 bg-neutral-900/40 backdrop-blur-sm">
                 <div className="flex justify-between items-start mb-6">
-                  <div className="p-3 bg-sky-500/10 rounded-2xl text-sky-400 group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-sky-500/10 rounded-lg text-sky-400 group-hover:scale-110 transition-transform">
                     <Target size={24} />
                   </div>
 
@@ -163,28 +163,28 @@ export default function AllCompetitionsPage() {
                 <div className="space-y-2 mb-8">
                   <h3 className="text-lg font-bold text-white group-hover:text-sky-400 transition-colors">{competition.title}</h3>
                   <div className="flex flex-wrap gap-3">
-                    <div className="flex items-center gap-1 text-[11px] text-neutral-400 bg-white/5 px-2 py-1 rounded-md">
+                    <div className="flex items-center gap-1 text-[11px] text-neutral-400 bg-white/5 px-2 py-1 rounded">
                       <Users size={12} /> {competition.participants} نفر
                     </div>
-                    <div className="flex items-center gap-1 text-[11px] text-amber-400 bg-amber-400/10 px-2 py-1 rounded-md">
+                    <div className="flex items-center gap-1 text-[11px] text-amber-400 bg-amber-400/10 px-2 py-1 rounded">
                       <Zap size={12} fill="currentColor" />{" "}
                       {competition.type === "neon" ? "نئون" : competition.type === "speed" ? "سریع" : "استاندارد"}
                     </div>
-                    <span className="text-[10px] text-neutral-400 bg-white/5 px-2 py-1 rounded-md uppercase font-bold">
+                    <span className="text-[10px] text-neutral-400 bg-white/5 px-2 py-1 rounded uppercase font-bold">
                       {competition.status === "open" ? "OPEN" : competition.status === "closing" ? "CLOSING" : "FULL"}
                     </span>
                   </div>
                 </div>
 
                 <div className="mt-auto space-y-4">
-                  <div className="flex justify-between items-end bg-black/40 p-4 rounded-2xl border border-white/5">
+                  <div className="flex justify-between items-end bg-black/40 p-4 rounded-lg border border-white/5">
                     <div>
                       <p className="text-[9px] text-neutral-500 uppercase font-bold mb-1">Prize Pool</p>
                       <p className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-purple-500">
                         ${competition.prizePool.toLocaleString("en-US")}
                       </p>
                     </div>
-                    <button className="bg-sky-500 hover:bg-sky-400 text-black px-5 py-2 rounded-xl text-xs font-black transition-all shadow-[0_0_15px_rgba(56,189,248,0.3)]">
+                    <button className="bg-sky-500 hover:bg-sky-400 text-black px-5 py-2 rounded-lg text-xs font-black transition-all shadow-[0_0_15px_rgba(56,189,248,0.3)]">
                       ورود
                     </button>
                   </div>
@@ -202,7 +202,7 @@ export default function AllCompetitionsPage() {
           onClick={() => setIsFilterOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-3xl border border-white/10 bg-neutral-900/95 p-6 shadow-2xl"
+            className="w-full max-w-lg rounded-lg border border-white/10 bg-neutral-900/95 p-6 shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-6">
@@ -274,7 +274,7 @@ export default function AllCompetitionsPage() {
               />
             </div>
 
-            <button onClick={() => setIsFilterOpen(false)} className="mt-6 w-full rounded-2xl bg-sky-500 py-2 text-sm font-bold text-black">
+            <button onClick={() => setIsFilterOpen(false)} className="mt-6 w-full rounded-lg bg-sky-500 py-2 text-sm font-bold text-black">
               اعمال فیلتر
             </button>
           </div>

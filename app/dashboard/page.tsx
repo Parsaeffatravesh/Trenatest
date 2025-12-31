@@ -9,7 +9,7 @@ import { formatNumberLatin } from "@/lib/format";
 
 const OverviewChart = dynamic(
   () => import("@/components/dashboard/overview-chart").then((mod) => mod.OverviewChart),
-  { ssr: false, loading: () => <div className="h-full w-full animate-pulse bg-white/5 rounded-2xl" /> }
+  { ssr: false, loading: () => <div className="h-full w-full animate-pulse bg-white/5 rounded-lg" /> }
 );
 
 export default function DashboardPage() {
