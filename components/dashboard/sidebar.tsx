@@ -2,57 +2,33 @@
 
 import { useState, useCallback, memo, useEffect } from "react";
 import { LayoutDashboard, Trophy, ChevronLeft, ChevronRight, LogOut, User, SwatchBook } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
-import { motion } from "framer-motion";
 
 const MenuItem = memo(function MenuItem({ 
   item, 
   isActive, 
   isCollapsed,
-  onHover,
   isRtl,
-  onNavigate
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
   isActive: boolean; 
   isCollapsed: boolean;
-  onHover: (href: string) => void;
   isRtl: boolean;
-  onNavigate: (href: string) => void;
 }) {
-  const [isClicking, setIsClicking] = useState(false);
-
-  useEffect(() => {
-    if (!isActive) {
-      setIsClicking(false);
-    }
-  }, [isActive]);
-
-  const handleClick = useCallback(() => {
-    setIsClicking(true);
-    onNavigate(item.href);
-  }, [item.href, onNavigate]);
-
   return (
-    <motion.button
-      onClick={handleClick}
-      onMouseEnter={() => onHover(item.href)}
-      whileTap={{ scale: 0.98 }}
+    <Link
+      href={item.href}
       className={cn(
-        "w-full flex items-center p-3 rounded-lg transition-colors group relative overflow-hidden cursor-pointer",
-        isActive || isClicking
+        "w-full flex items-center p-3 rounded-lg transition-all duration-200 group relative overflow-hidden",
+        isActive
           ? "bg-sky-500/10 text-sky-300"
-          : "text-slate-400 hover:bg-white/5 hover:text-sky-300"
+          : "text-slate-400 hover:bg-white/5 hover:text-sky-300 active:scale-[0.98]"
       )}
     >
-      <motion.div
-        animate={isClicking ? { rotate: [0, 10, -10, 0] } : {}}
-        transition={{ duration: 0.4 }}
-      >
-        <item.icon size={22} className="flex-shrink-0 z-10" />
-      </motion.div>
+      <item.icon size={22} className="flex-shrink-0 z-10" />
       <span 
         className={cn(
           "font-medium text-sm whitespace-nowrap z-10 transition-opacity duration-150",
@@ -63,20 +39,16 @@ const MenuItem = memo(function MenuItem({
         {item.name}
       </span>
       {!isCollapsed && isActive && (
-        <motion.div 
-          layoutId="activeMenuItem"
-          className="absolute inset-0 bg-sky-500/10 rounded-lg"
-        />
+        <div className="absolute inset-0 bg-sky-500/10 rounded-lg" />
       )}
-    </motion.button>
+    </Link>
   );
 });
 
 export const Sidebar = memo(function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
-  const router = useRouter();
-  const { t, dir, locale } = useI18n();
+  const { t, dir } = useI18n();
   const isRtl = dir === "rtl";
 
   const menuItems = [
@@ -85,14 +57,6 @@ export const Sidebar = memo(function Sidebar() {
     { name: t.nav.myCompetitions, icon: Trophy, href: "/dashboard/my-competitions" },
     { name: t.nav.profile, icon: User, href: "/dashboard/profile" },
   ];
-
-  const handlePrefetch = useCallback((href: string) => {
-    router.prefetch(href);
-  }, [router]);
-
-  const handleNavigate = useCallback((href: string) => {
-    router.push(href);
-  }, [router]);
 
   return (
     <div
@@ -142,8 +106,6 @@ export const Sidebar = memo(function Sidebar() {
               item={item}
               isActive={isActive}
               isCollapsed={isCollapsed}
-              onHover={handlePrefetch}
-              onNavigate={handleNavigate}
               isRtl={isRtl}
             />
           );
@@ -151,7 +113,7 @@ export const Sidebar = memo(function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-white/10">
-        <button className="flex w-full items-center justify-center p-3 rounded-lg bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition-all">
+        <button className="flex w-full items-center justify-center p-3 rounded-lg bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 transition-all active:scale-[0.98]">
           <LogOut size={20} />
           <span className={cn(
             "text-sm font-medium transition-opacity duration-150",
