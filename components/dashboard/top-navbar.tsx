@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Wallet, Bell, X, ArrowDownToLine, ArrowUpFromLine, Check, CheckCheck } from "lucide-react";
+import { Bell, X, ArrowDownToLine, ArrowUpFromLine, Check, CheckCheck } from "lucide-react";
+import { WalletIcon } from "@/components/ui/wallet-icon";
 import { useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +65,7 @@ export function TopNavbar() {
           onClick={() => setShowWalletModal(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-sky-500/20 to-purple-500/20 border border-white/10 hover:border-sky-500/30 transition-all group"
         >
-          <Wallet size={18} className="text-sky-400" />
+          <WalletIcon size={18} className="text-sky-400" />
           <span className="text-sm font-bold text-white">${balance.toLocaleString("en-US")}</span>
         </button>
 
