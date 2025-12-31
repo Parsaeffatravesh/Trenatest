@@ -37,9 +37,9 @@ export const MagicCard = React.memo(function MagicCard({
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      className={`magic-card group relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0f172a]/90 p-6 shadow-[0_0_30px_rgba(15,23,42,0.5)] ${className}`}
+      className={`magic-card group relative overflow-hidden rounded-xl border border-white/10 bg-[#0f172a]/90 p-6 shadow-[0_0_30px_rgba(15,23,42,0.5)] ${className}`}
     >
-      <div className="magic-card-glow pointer-events-none absolute -inset-px rounded-[32px] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="magic-card-glow pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       {children}
     </div>
   );
