@@ -10,6 +10,13 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes (December 2025)
 
+### Performance Optimizations (Latest)
+- **Server Components**: Competitions page converted to Server Component with client-only filter logic separated
+- **No framer-motion in sidebar**: Replaced with CSS transitions for lighter bundle
+- **MagicCard mobile optimization**: Mouse effects disabled on mobile (< 768px)
+- **Next.js Link**: Replaced router.push with Link component for native prefetch
+
+### UI/UX Features
 - **Top Navbar**: Added navbar with wallet balance display (click to deposit/withdraw) and notifications
 - **Notifications Panel**: Badge with unread count, dropdown panel, "mark all read" button
 - **Wallet Modal**: Deposit/withdraw functionality with network selection
