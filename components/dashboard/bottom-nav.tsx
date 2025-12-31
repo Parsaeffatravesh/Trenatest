@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useState, useEffect } from "react";
 import { LayoutDashboard, Trophy, SwatchBook, User } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -19,6 +19,12 @@ const NavItem = memo(function NavItem({
   onNavigate: (href: string) => void;
 }) {
   const [isClicking, setIsClicking] = useState(false);
+
+  useEffect(() => {
+    if (!isActive) {
+      setIsClicking(false);
+    }
+  }, [isActive]);
 
   const handleClick = useCallback(() => {
     setIsClicking(true);
