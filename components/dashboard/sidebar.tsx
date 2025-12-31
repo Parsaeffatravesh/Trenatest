@@ -12,16 +12,19 @@ const MenuItem = memo(function MenuItem({
   isActive, 
   isCollapsed,
   isRtl,
+  onClick,
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
   isActive: boolean; 
   isCollapsed: boolean;
   isRtl: boolean;
+  onClick: () => void;
 }) {
   return (
     <Link
       href={item.href}
       prefetch={true}
+      onClick={onClick}
       className={cn(
         "w-full flex items-center p-3 rounded-xl transition-all duration-200 group relative overflow-hidden",
         isActive
@@ -46,8 +49,15 @@ const MenuItem = memo(function MenuItem({
 export const Sidebar = memo(function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
+  const [optimisticPath, setOptimisticPath] = useState<string | null>(null);
   const { t, dir } = useI18n();
   const isRtl = dir === "rtl";
+
+  useEffect(() => {
+    setOptimisticPath(null);
+  }, [pathname]);
+
+  const currentPath = optimisticPath || pathname;
 
   const menuItems = [
     { name: t.nav.dashboard, icon: LayoutDashboard, href: "/dashboard" },
@@ -97,7 +107,7 @@ export const Sidebar = memo(function Sidebar() {
 
       <nav className="flex-1 space-y-2 px-3 mt-6">
         {menuItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          const isActive = currentPath === item.href || (item.href !== "/dashboard" && currentPath.startsWith(item.href));
           return (
             <MenuItem
               key={item.href}
@@ -105,6 +115,7 @@ export const Sidebar = memo(function Sidebar() {
               isActive={isActive}
               isCollapsed={isCollapsed}
               isRtl={isRtl}
+              onClick={() => setOptimisticPath(item.href)}
             />
           );
         })}
