@@ -13,12 +13,14 @@ const MenuItem = memo(function MenuItem({
   isCollapsed,
   isRtl,
   onClick,
+  isOptimistic,
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
   isActive: boolean; 
   isCollapsed: boolean;
   isRtl: boolean;
   onClick: () => void;
+  isOptimistic: boolean;
 }) {
   return (
     <Link
@@ -26,9 +28,12 @@ const MenuItem = memo(function MenuItem({
       prefetch={true}
       onClick={onClick}
       className={cn(
-        "w-full flex items-center p-3 rounded-xl transition-all duration-200 group relative overflow-hidden",
+        "w-full flex items-center p-3 rounded-xl transition-all duration-300 group relative overflow-hidden",
         isActive
-          ? "bg-gradient-to-l from-sky-500/20 to-sky-500/5 text-sky-300 border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.15)]"
+          ? cn(
+              "bg-gradient-to-l from-sky-500/20 to-sky-500/5 text-sky-300 border border-sky-500/30 shadow-[0_0_15px_rgba(56,189,248,0.15)]",
+              isOptimistic && "opacity-40 grayscale-[0.5] border-sky-500/10 shadow-none scale-[0.98]"
+            )
           : "text-slate-400 hover:bg-white/5 hover:text-sky-300 active:scale-[0.98]"
       )}
     >
@@ -107,7 +112,10 @@ export const Sidebar = memo(function Sidebar() {
 
       <nav className="flex-1 space-y-2 px-3 mt-6">
         {menuItems.map((item) => {
-          const isActive = currentPath === item.href || (item.href !== "/dashboard" && currentPath.startsWith(item.href));
+          const isActuallyActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
+          const isOptimisticallyActive = optimisticPath === item.href;
+          const isActive = isActuallyActive || isOptimisticallyActive;
+          
           return (
             <MenuItem
               key={item.href}
@@ -116,6 +124,7 @@ export const Sidebar = memo(function Sidebar() {
               isCollapsed={isCollapsed}
               isRtl={isRtl}
               onClick={() => setOptimisticPath(item.href)}
+              isOptimistic={isOptimisticallyActive && !isActuallyActive}
             />
           );
         })}
