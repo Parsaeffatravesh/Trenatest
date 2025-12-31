@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning className={dana.variable}>
-      <body className="min-h-screen bg-[#020617] text-slate-100 antialiased font-dana">
+      <body className={`${dana.className} min-h-screen bg-[#020617] text-slate-100 antialiased`}>
         <Providers>
           {children}
         </Providers>
