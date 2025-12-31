@@ -1,44 +1,58 @@
 "use client";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useState } from "react";
 import { LayoutDashboard, Trophy, SwatchBook, User } from "lucide-react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { motion } from "framer-motion";
 
 const NavItem = memo(function NavItem({ 
   item, 
   isActive, 
-  onHover 
+  onHover,
+  onNavigate
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
   isActive: boolean; 
   onHover: (href: string) => void;
+  onNavigate: (href: string) => void;
 }) {
+  const [isClicking, setIsClicking] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setIsClicking(true);
+    onNavigate(item.href);
+  }, [item.href, onNavigate]);
+
   return (
-    <Link 
-      href={item.href} 
-      prefetch={false} 
+    <motion.button
+      onClick={handleClick}
       onMouseEnter={() => onHover(item.href)}
       onTouchStart={() => onHover(item.href)}
-      className="relative flex flex-col items-center gap-1"
+      whileTap={{ scale: 0.92 }}
+      className="relative flex flex-col items-center gap-1 cursor-pointer"
     >
-      <div
+      <motion.div
+        animate={isClicking ? { scale: [1, 1.1, 1] } : {}}
+        transition={{ duration: 0.3 }}
         className={cn(
-          "p-2 rounded-xl transition-colors duration-150",
-          isActive ? "text-sky-300 bg-sky-500/10" : "text-slate-400"
+          "p-2 rounded-xl transition-all duration-150",
+          isActive || isClicking ? "text-sky-300 bg-sky-500/10" : "text-slate-400"
         )}
       >
         <item.icon size={20} />
-      </div>
+      </motion.div>
       <span className={cn("text-[10px] font-medium", isActive ? "text-sky-300" : "text-slate-400")}>
         {item.name}
       </span>
       {isActive && (
-        <div className="absolute -top-3 w-8 h-1 bg-sky-400 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.7)]" />
+        <motion.div 
+          layoutId="activeIndicator"
+          className="absolute -top-3 w-8 h-1 bg-sky-400 rounded-full shadow-[0_0_12px_rgba(56,189,248,0.7)]"
+        />
       )}
-    </Link>
+    </motion.button>
   );
 });
 
@@ -58,6 +72,10 @@ export const BottomNav = memo(function BottomNav() {
     router.prefetch(href);
   }, [router]);
 
+  const handleNavigate = useCallback((href: string) => {
+    router.push(href);
+  }, [router]);
+
   return (
     <nav
       className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0b1224]/90 backdrop-blur-sm border-t border-white/10 px-6 py-3"
@@ -71,6 +89,7 @@ export const BottomNav = memo(function BottomNav() {
               item={item}
               isActive={isActive}
               onHover={handlePrefetch}
+              onNavigate={handleNavigate}
             />
           );
         })}

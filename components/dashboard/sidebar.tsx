@@ -2,37 +2,51 @@
 
 import { useState, useCallback, memo } from "react";
 import { LayoutDashboard, Trophy, ChevronLeft, ChevronRight, LogOut, User, SwatchBook } from "lucide-react";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useI18n } from "@/lib/i18n";
+import { motion } from "framer-motion";
 
 const MenuItem = memo(function MenuItem({ 
   item, 
   isActive, 
   isCollapsed,
   onHover,
-  isRtl
+  isRtl,
+  onNavigate
 }: { 
   item: { name: string; icon: React.ElementType; href: string }; 
   isActive: boolean; 
   isCollapsed: boolean;
   onHover: (href: string) => void;
   isRtl: boolean;
+  onNavigate: (href: string) => void;
 }) {
+  const [isClicking, setIsClicking] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setIsClicking(true);
+    onNavigate(item.href);
+  }, [item.href, onNavigate]);
+
   return (
-    <Link
-      href={item.href}
-      prefetch={false}
+    <motion.button
+      onClick={handleClick}
       onMouseEnter={() => onHover(item.href)}
+      whileTap={{ scale: 0.98 }}
       className={cn(
-        "flex items-center p-3 rounded-2xl transition-colors group relative overflow-hidden",
-        isActive
+        "w-full flex items-center p-3 rounded-2xl transition-colors group relative overflow-hidden cursor-pointer",
+        isActive || isClicking
           ? "bg-sky-500/10 text-sky-300"
           : "text-slate-400 hover:bg-white/5 hover:text-sky-300"
       )}
     >
-      <item.icon size={22} className="flex-shrink-0 z-10" />
+      <motion.div
+        animate={isClicking ? { rotate: [0, 10, -10, 0] } : {}}
+        transition={{ duration: 0.4 }}
+      >
+        <item.icon size={22} className="flex-shrink-0 z-10" />
+      </motion.div>
       <span 
         className={cn(
           "font-medium text-sm whitespace-nowrap z-10 transition-opacity duration-150",
@@ -43,9 +57,12 @@ const MenuItem = memo(function MenuItem({
         {item.name}
       </span>
       {!isCollapsed && isActive && (
-        <div className="absolute inset-0 bg-sky-500/10 rounded-2xl" />
+        <motion.div 
+          layoutId="activeMenuItem"
+          className="absolute inset-0 bg-sky-500/10 rounded-2xl"
+        />
       )}
-    </Link>
+    </motion.button>
   );
 });
 
@@ -65,6 +82,10 @@ export const Sidebar = memo(function Sidebar() {
 
   const handlePrefetch = useCallback((href: string) => {
     router.prefetch(href);
+  }, [router]);
+
+  const handleNavigate = useCallback((href: string) => {
+    router.push(href);
   }, [router]);
 
   return (
@@ -116,6 +137,7 @@ export const Sidebar = memo(function Sidebar() {
               isActive={isActive}
               isCollapsed={isCollapsed}
               onHover={handlePrefetch}
+              onNavigate={handleNavigate}
               isRtl={isRtl}
             />
           );
