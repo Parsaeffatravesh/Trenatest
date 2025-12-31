@@ -5,7 +5,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-dana)', 'Inter', 'system-ui', 'sans-serif'],
+        dana: ['var(--font-dana)', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
     },
