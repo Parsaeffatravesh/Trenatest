@@ -161,7 +161,7 @@ a {
 @keyframes pageIn {
   from {
     opacity: 0;
-    transform: translate3d(0, 6px, 0);
+    transform: translate3d(0, 4px, 0);
   }
   to {
     opacity: 1;
@@ -170,7 +170,7 @@ a {
 }
 
 .animate-page-in {
-  animation: pageIn 0.15s ease-out both;
+  animation: pageIn 0.08s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
