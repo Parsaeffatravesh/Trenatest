@@ -15,11 +15,15 @@
 }
 
 html, body {
-  font-family: var(--font-vazirmatn), system-ui, -apple-system, sans-serif !important;
+  font-family: var(--font-dana), system-ui, -apple-system, sans-serif !important;
   scroll-behavior: smooth;
   overflow: hidden;
   height: 100vh;
   width: 100vw;
+}
+
+.font-dana {
+  font-family: var(--font-dana), sans-serif !important;
 }
 
 body {
